@@ -1,4 +1,4 @@
-# **[ Master the Rust programming language from A-Z. Includes projects, quizzes, and more. Beginners welcome!]([https://www.example.com](https://www.udemy.com/course/learn-to-code-with-rust/learn/quiz/6612445))**
+# **[ Master the Rust programming language from A-Z. Includes projects, quizzes, and more. Beginners welcome!](https://www.example.comhttps://www.udemy.com/course/learn-to-code-with-rust/learn/quiz/6612445)**
 
 **Learn to Code with Rust** is a comprehensive introduction to programming in Rust, one of the fastest-growing programming languages in the world. Rust powers codebases in companies and products like Amazon, Microsoft, Firefox, Discord, and more. It is used in a variety of disciplines including web development, CLI programs, build tools, and databases.
 
