@@ -1,1 +1,1 @@
-# RustDev
+# **[ Master the Rust programming language from A-Z. Includes projects, quizzes, and more. Beginners welcome!]([https://www.example.com](https://www.udemy.com/course/learn-to-code-with-rust/learn/quiz/6612445))**
