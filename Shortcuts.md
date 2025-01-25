@@ -162,3 +162,13 @@ Rust provides many mathematical functions in the `std::f64` and `std::f32` modul
 | `#![crate_name]`   | Define crate name                            | `#![crate_name = "my_crate"]`      |
 
 ---
+## **4 Variations on `self`**
+
+| **Variation**    | **Example**           | **Meaning**                     |
+|-----------------|-----------------------|---------------------------------|
+| `self`          | `fn take_ownership(self)` | Takes ownership of the struct   |
+| `&self`         | `fn borrow(&self)`        | Immutable borrow                |
+| `&mut self`     | `fn modify(&mut self)`    | Mutable borrow                   |
+| `Self` (uppercase) | `fn new() -> Self`      | Refers to the struct type        |
+
+---
