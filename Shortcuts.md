@@ -145,3 +145,20 @@ Rust provides many mathematical functions in the `std::f64` and `std::f32` modul
 | `!`      | Logical NOT          | `!true`                   | `false` |
 
 ---
+## **Commonly Used Rust Attributes Overview**
+
+| Attribute          | Purpose                                       | Example                            |
+|-------------------|-----------------------------------------------|------------------------------------|
+| `#[derive(...)]`   | Auto-implement traits                        | `#[derive(Debug, Clone)]`         |
+| `#[cfg(...)]`      | Conditional compilation                      | `#[cfg(target_os = "linux")]`      |
+| `#[allow(...)]`    | Suppress warnings                            | `#[allow(unused_variables)]`       |
+| `#[warn(...)]`     | Turn on warnings                             | `#[warn(dead_code)]`               |
+| `#[deny(...)]`     | Turn warnings into errors                    | `#[deny(missing_docs)]`            |
+| `#[test]`          | Mark a function as a unit test               | `#[test]`                          |
+| `#[ignore]`        | Skip a test unless explicitly called         | `#[ignore]`                        |
+| `#[inline]`        | Suggest function inlining                    | `#[inline]`                        |
+| `#[repr(...)]`     | Control memory layout of structs/enums       | `#[repr(C)]`                       |
+| `#[doc(...)]`      | Add documentation metadata                   | `#[doc = "This is a function."]`   |
+| `#![crate_name]`   | Define crate name                            | `#![crate_name = "my_crate"]`      |
+
+---
