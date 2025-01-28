@@ -1,75 +1,62 @@
-# **Enums**
+# **Enums in Rust**
 
-Enums in Rust are powerful and flexible constructs that allow you to define types with multiple possible values. Unlike other languages where enums are just named values, Rust enums can contain **associated data**, support **methods**, and work seamlessly with pattern matching.
+Rust enums are powerful and versatile. Unlike enums in many other languages, Rust enums can carry associated data and allow complex pattern matching, making them highly expressive.
 
 ---
 
 ## **1. Associated Data on Enums**
 
-Enums in Rust can carry data within their variants, similar to struct fields.
+Enums in Rust can include additional data in their variants. This allows each variant to store relevant values, making enums flexible for a wide range of use cases.
 
-### **Example: Associating Data with Enums**
+### **Example:**
 ```rust
 enum Message {
-    Text(String),
     Quit,
+    Text(String),
     Move { x: i32, y: i32 },
-    ChangeColor(i32, i32, i32),
 }
 
 fn main() {
-    let msg1 = Message::Text(String::from("Hello, Rust!"));
-    let msg2 = Message::Move { x: 10, y: 20 };
-    let msg3 = Message::ChangeColor(255, 255, 0);
+    let msg = Message::Move { x: 10, y: 20 };
 
-    match msg1 {
-        Message::Text(content) => println!("Text message: {}", content),
-        _ => println!("Other message type"),
+    match msg {
+        Message::Quit => println!("Quit"),
+        Message::Text(content) => println!("Message: {}", content),
+        Message::Move { x, y } => println!("Move to ({}, {})", x, y),
     }
 }
 ```
-
-**Key points:**
-- `Text(String)` → Contains a single `String` value.
-- `Quit` → Variant with no data.
-- `Move { x, y }` → Struct-like variant with named fields.
-- `ChangeColor(i32, i32, i32)` → Tuple variant.
 
 ---
 
 ## **2. Tuple Variants**
 
-Tuple variants allow you to store values without naming the fields, providing concise structuring.
+Tuple variants allow enums to store data without naming the fields. This is useful when the positional meaning of the data is clear.
 
-### **Example: Using Tuple Variants**
+### **Example:**
 ```rust
 enum Shape {
-    Circle(f64),          // Tuple variant with a radius
-    Rectangle(f64, f64),  // Tuple variant with width and height
+    Circle(f64),          // Radius
+    Rectangle(f64, f64),  // Width and height
 }
 
 fn main() {
-    let circle = Shape::Circle(10.5);
-    let rectangle = Shape::Rectangle(10.0, 20.0);
+    let shape = Shape::Circle(10.0);
 
-    match rectangle {
-        Shape::Circle(radius) => println!("Circle radius: {}", radius),
+    match shape {
+        Shape::Circle(radius) => println!("Circle with radius {}", radius),
         Shape::Rectangle(w, h) => println!("Rectangle: {}x{}", w, h),
     }
 }
 ```
 
-**Advantages of tuple variants:**
-- Compact syntax when field names are not required.
-- Useful for variants where positional meaning is clear.
-
 ---
 
 ## **3. Struct Variants**
 
-Struct variants allow defining named fields inside an enum, making the code more readable and self-documenting.
+Struct variants allow you to use named fields, making the data more readable and self-documenting.
 
-### **Example: Using Struct Variants**
+### **Example:**
 ```rust
 enum Employee {
     Manager { name: String, team_size: u32 },
@@ -77,31 +64,25 @@ enum Employee {
 }
 
 fn main() {
-    let manager = Employee::Manager {
+    let alice = Employee::Manager {
         name: String::from("Alice"),
         team_size: 5,
     };
 
-    match manager {
-        Employee::Manager { name, team_size } => {
-            println!("Manager: {}, Team Size: {}", name, team_size);
-        }
-        Employee::Developer { .. } => println!("Developer"),
+    match alice {
+        Employee::Manager { name, team_size } => println!("Manager: {}, Team Size: {}", name, team_size),
+        Employee::Developer { name, language } => println!("Developer: {}, Language: {}", name, language),
     }
 }
 ```
-
-**Benefits of struct variants:**
-- Provides better clarity by using named fields.
-- Easier to work with complex data structures.
 
 ---
 
 ## **4. Nested Enums**
 
-Enums can contain other enums inside them, allowing for complex data structures.
+Enums can be nested within other enums, which is useful for hierarchical or state-dependent data.
 
-### **Example: Nested Enums**
+### **Example:**
 ```rust
 enum Status {
     Active,
@@ -127,17 +108,13 @@ fn main() {
 }
 ```
 
-**Use cases:**
-- Representing states that have sub-states.
-- Structuring data hierarchically.
-
 ---
 
 ## **5. The `match` Keyword with Enums**
 
-The `match` keyword is a powerful feature in Rust that allows you to handle all possible cases of an enum in a structured manner.
+The `match` keyword allows exhaustive pattern matching for enums, ensuring all possible variants are handled.
 
-### **Example: Pattern Matching with `match`**
+### **Example:**
 ```rust
 enum TrafficLight {
     Red,
@@ -145,30 +122,24 @@ enum TrafficLight {
     Green,
 }
 
-fn check_light(light: TrafficLight) {
+fn main() {
+    let light = TrafficLight::Red;
+
     match light {
         TrafficLight::Red => println!("Stop"),
         TrafficLight::Yellow => println!("Caution"),
         TrafficLight::Green => println!("Go"),
     }
 }
-
-fn main() {
-    check_light(TrafficLight::Red);
-}
 ```
-
-**Advantages of `match`:**
-- Ensures exhaustive handling of all variants.
-- Helps with clear and safe pattern matching.
 
 ---
 
 ## **6. Defining Methods on Enums**
 
-You can define methods for enums using `impl` blocks, allowing you to encapsulate behavior.
+Enums can have methods defined in `impl` blocks, just like structs. Methods allow encapsulating behavior related to the enum.
 
-### **Example: Adding Methods to an Enum**
+### **Example:**
 ```rust
 enum Direction {
     Up,
@@ -178,146 +149,161 @@ enum Direction {
 }
 
 impl Direction {
-    fn as_str(&self) -> &str {
+    fn describe(&self) -> &str {
         match self {
-            Direction::Up => "Going Up",
-            Direction::Down => "Going Down",
-            Direction::Left => "Going Left",
-            Direction::Right => "Going Right",
+            Direction::Up => "Going up",
+            Direction::Down => "Going down",
+            Direction::Left => "Going left",
+            Direction::Right => "Going right",
         }
     }
 }
 
 fn main() {
-    let direction = Direction::Left;
-    println!("{}", direction.as_str());
+    let dir = Direction::Left;
+    println!("{}", dir.describe());
 }
 ```
 
-**Key points:**
-- Methods allow encapsulation of enum-specific logic.
-- `&self` provides a way to work with an instance of the enum.
-
 ---
 
-## **7. The `self` Keyword with Enums**
+## **7. Catching Multiple Values in `match`**
 
-The `self` keyword in an `impl` block refers to the current instance of the enum.
+You can match multiple values in a single `match` arm using the `|` operator.
 
-**Common uses of `self`:**
-- `&self` for read access to the enum.
-- `&mut self` for mutable access.
-- `self` for ownership of the instance.
-
----
-
-## **8. Four Variations on `self` in Enum Methods**
-
-| Signature              | Meaning                                | Example Usage                           |
-|-----------------------|----------------------------------------|-----------------------------------------|
-| `fn method(self)`      | Takes ownership of the enum           | Transforming enum values                |
-| `fn method(&self)`     | Borrows the enum immutably             | Read-only operations                    |
-| `fn method(&mut self)` | Borrows the enum mutably               | Modifying the enum in place             |
-| `fn method() -> Self`  | Returns an enum instance               | Constructor-like methods                |
-
----
-
-## **9. Methods with Multiple Parameters**
-
-Methods on enums can take additional parameters alongside `self`.
-
-### **Example: Enum Methods with Parameters**
+### **Example:**
 ```rust
-enum Account {
-    Savings(f64),
-    Checking(f64),
-}
-
-impl Account {
-    fn deposit(&mut self, amount: f64) {
-        match self {
-            Account::Savings(balance) | Account::Checking(balance) => {
-                *balance += amount;
-            }
-        }
-    }
+enum State {
+    Start,
+    InProgress,
+    Complete,
 }
 
 fn main() {
-    let mut my_account = Account::Savings(1000.0);
-    my_account.deposit(500.0);
-    if let Account::Savings(balance) = my_account {
-        println!("New balance: {}", balance);
+    let state = State::Start;
+
+    match state {
+        State::Start | State::Complete => println!("Boundary state"),
+        State::InProgress => println!("Work in progress"),
     }
 }
 ```
 
 ---
 
-## **10. Associated Functions**
+## **8. `match` with Exact Values**
 
-Associated functions in enums allow functionality related to the enum without needing an instance.
+You can match exact values using constants or literals.
 
-### **Example: Creating Instances with Associated Functions**
-```rust
-enum Color {
-    Red,
-    Green,
-    Blue,
-}
-
-impl Color {
-    fn default() -> Self {
-        Color::Red
-    }
-}
-
-fn main() {
-    let default_color = Color::default();
-}
-```
-
----
-
-## **11. The `new` Constructor Function**
-
-It is common to define a `new` function to create instances of an enum.
-
-```rust
-enum Logger {
-    Info(String),
-    Warning(String),
-    Error(String),
-}
-
-impl Logger {
-    fn new_error(msg: &str) -> Self {
-        Logger::Error(msg.to_string())
-    }
-}
-
-fn main() {
-    let log = Logger::new_error("Something went wrong!");
-}
-```
-
----
-
-## **12. Tuple Struct Enums**
-
-Tuple structs inside enums provide a compact way to store data.
-
+### **Example:**
 ```rust
 enum Status {
+    Success,
+    Failure(i32),
+}
+
+fn main() {
+    let result = Status::Failure(404);
+
+    match result {
+        Status::Success => println!("Operation succeeded"),
+        Status::Failure(404) => println!("Not Found"),
+        Status::Failure(_) => println!("Other failure"),
+    }
+}
+```
+
+---
+
+## **9. The `if let` Construct**
+
+`if let` is a shorthand for pattern matching when you only care about one variant.
+
+### **Example:**
+```rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+fn main() {
+    let value = Option::Some(42);
+
+    if let Option::Some(x) = value {
+        println!("Found: {}", x);
+    } else {
+        println!("Nothing found");
+    }
+}
+```
+
+---
+
+## **10. The `let else` Construct**
+
+The `let else` construct, introduced in Rust 1.65, simplifies error handling when destructuring.
+
+### **Example:**
+```rust
+fn process(value: Option<i32>) {
+    let Some(x) = value else {
+        println!("No value found!");
+        return;
+    };
+
+    println!("Value: {}", x);
+}
+
+fn main() {
+    process(Some(42)); // Output: Value: 42
+    process(None);     // Output: No value found!
+}
+```
+
+---
+
+## **11. Enum with Associated Values**
+
+Enums with associated values allow each variant to store data.
+
+### **Example:**
+```rust
+enum Response {
     Success(u32),
     Error(String),
 }
+
+fn main() {
+    let res = Response::Success(200);
+
+    match res {
+        Response::Success(code) => println!("Success with code: {}", code),
+        Response::Error(msg) => println!("Error: {}", msg),
+    }
+}
 ```
 
 ---
 
-## **13. The Builder Pattern**
+## **12. A Brief Discussion on Enum Memory**
 
-Enums can be used to implement the builder pattern for configuring complex objects step by step.
+- Enums in Rust are stored efficiently.
+- The memory required for an enum is the size of its largest variant plus a small amount of metadata.
+- This efficiency makes enums practical for use cases like state machines and data models.
+
+### **Example:**
+```rust
+enum Data {
+    Small(i32),
+    Large([i32; 100]),
+}
+
+fn main() {
+    let small = Data::Small(42);
+    let large = Data::Large([0; 100]);
+}
+```
+
+- In this case, the enum will allocate enough memory to hold the `Large` variant, even if the instance is of the `Small` variant.
 
  
