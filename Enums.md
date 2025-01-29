@@ -306,4 +306,127 @@ fn main() {
 
 - In this case, the enum will allocate enough memory to hold the `Large` variant, even if the instance is of the `Small` variant.
 
+### **Enums vs. Structs in Rust**
+Both **enums** and **structs** in Rust are used to define custom data types, but they serve different purposes.
+
+---
+
+## **1. Enums (`enum`)**
+- Used when a value can be **one of multiple possible variants**.
+- Each variant can have **different associated data types**.
+- Typically used in **state management**, **pattern matching**, and **decision trees**.
+
+### **Example: Using `enum` for Different Message Types**
+```rust
+enum Message {
+    Quit,                       // No data
+    Text(String),               // Tuple variant with a String
+    Move { x: i32, y: i32 },    // Struct-like variant
+}
+
+fn process_message(msg: Message) {
+    match msg {
+        Message::Quit => println!("Quit"),
+        Message::Text(content) => println!("Text Message: {}", content),
+        Message::Move { x, y } => println!("Move to ({}, {})", x, y),
+    }
+}
+
+fn main() {
+    let msg1 = Message::Text(String::from("Hello!"));
+    let msg2 = Message::Move { x: 10, y: 20 };
+
+    process_message(msg1);
+    process_message(msg2);
+}
+```
+### **Key Takeaways:**
+✔ **Flexible:** Variants can store different types of data.  
+✔ **Pattern Matching:** Enums work well with Rust's `match` statement.  
+✔ **Ideal for Finite States:** Example: `Result<T, E>` and `Option<T>` in Rust.
+
+---
+
+## **2. Structs (`struct`)**
+- Used to **group related data together**.
+- Each field **always exists** (unless it has an `Option<T>` type).
+- Best for **representing objects with known attributes**.
+
+### **Example: Using `struct` for Player Data**
+```rust
+struct Player {
+    name: String,
+    score: u32,
+}
+
+fn display_player(player: &Player) {
+    println!("{} has {} points", player.name, player.score);
+}
+
+fn main() {
+    let player1 = Player {
+        name: String::from("Alice"),
+        score: 50,
+    };
+
+    display_player(&player1);
+}
+```
+### **Key Takeaways:**
+✔ **Fixed Structure:** All fields are always present.  
+✔ **Best for Data Objects:** Example: A **user profile** or **game entity**.  
+✔ **Fields Are Named:** Helps with readability and maintainability.
+
+---
+
+## **🆚 Key Differences**
+| Feature          | `enum` (Enumerations)                      | `struct` (Structures)                      |
+|-----------------|--------------------------------------|--------------------------------------|
+| **Usage**        | Used when a value **can be one of many variants**. | Used when you want to **group related fields**. |
+| **Data Storage** | Each variant **can have different types of data**. | All fields **exist together** in an instance. |
+| **Memory Usage** | Memory-efficient because only **one variant** is stored at a time. | Stores **all fields** together, taking more memory. |
+| **Pattern Matching** | Best suited for **pattern matching** (`match`). | Requires accessing fields manually (`struct.field`). |
+| **Examples**     | `Option<T>`, `Result<T, E>`, `Message` | `Point { x, y }`, `Player { name, score }` |
+
+---
+
+## **When to Use What?**
+| Scenario | Use `enum` or `struct`? |
+|----------|-------------------|
+| **Different states or variants** (e.g., messages, responses, errors) | ✅ **`enum`** |
+| **An object with multiple properties** (e.g., user profile, game character) | ✅ **`struct`** |
+| **Finite, mutually exclusive cases** | ✅ **`enum`** |
+| **Data that always exists together** | ✅ **`struct`** |
+
+---
+
+## **🔍 Example: Struct vs Enum in a Game**
+### **Using `struct` for Player Data**
+```rust
+struct Player {
+    name: String,
+    health: u32,
+}
+```
+- Every player **always has a name and health**.
+
+### **Using `enum` for Game States**
+```rust
+enum GameState {
+    Playing,
+    Paused,
+    GameOver,
+}
+```
+- The game can only be in **one state at a time**.
+
+---
+
+## **Conclusion**
+- Use **structs** when you want to group related fields that always exist together.
+- Use **enums** when a value **can be one of multiple possibilities**.
+
+🚀 **Rule of thumb**: If an entity **"has"** properties → **Use a struct**.  
+If an entity **"is"** one of multiple types → **Use an enum**.
+
  
