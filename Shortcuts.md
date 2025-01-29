@@ -172,3 +172,21 @@ Rust provides many mathematical functions in the `std::f64` and `std::f32` modul
 | `Self` (uppercase) | `fn new() -> Self`      | Refers to the struct type        |
 
 ---
+## Deriving Traits
+
+Rust provides built-in traits like `Debug`, `Clone`, and `PartialEq` that can be automatically derived:
+
+```rust
+#[derive(Debug, Clone, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10 };
+    println!("{:?}", p1); // Output: Point { x: 5, y: 10 }
+}
+```
+
+---
