@@ -190,3 +190,25 @@ fn main() {
 ```
 
 ---
+## **Rust's case-sensitive naming conventions** 
+
+| **Use Case**                | **Naming Convention**   | **Example**                 |
+|-----------------------------|-------------------------|-----------------------------|
+| **Variables**               | `lower_snake_case`      | `let my_variable = 10;`    |
+| **Function Names**          | `lower_snake_case`      | `fn my_function() {}`      |
+| **Struct Field Names**      | `lower_snake_case`      | `struct Point { x: i32, y: i32 }` |
+| **Constants**               | `UPPER_SNAKE_CASE`      | `const MAX_LIMIT: u32 = 100;` |
+| **Static Variables**        | `UPPER_SNAKE_CASE`      | `static GLOBAL_VALUE: i32 = 42;` |
+| **Struct Names**            | `UpperCamelCase`        | `struct MyStruct {}`       |
+| **Enum Names**              | `UpperCamelCase`        | `enum TrafficLight {}`     |
+| **Enum Variants**           | `UpperCamelCase`        | `enum Status { Success, Error }` |
+| **Trait Names**             | `UpperCamelCase`        | `trait Display {}`         |
+| **Modules (Files/Folders)** | `lower_snake_case`      | `mod my_module;`           |
+| **Crate Names**             | `lower_snake_case`      | `cargo new my_project`     |
+| **Generic Type Parameters** | `UpperCamelCase`        | `struct Wrapper<T> {}`     |
+| **Lifetimes**               | `lowercase with apostrophe ('a, 'b)` | `fn example<'a>(x: &'a str) {}` |
+| **Type Aliases**            | `UpperCamelCase`        | `type Kilometers = i32;`   |
+| **Rust Keywords**           | `lowercase`             | `fn`, `let`, `match`, `loop` |
+
+---
+ 
