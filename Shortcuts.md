@@ -211,4 +211,24 @@ fn main() {
 | **Rust Keywords**           | `lowercase`             | `fn`, `let`, `match`, `loop` |
 
 ---
+
+ ## OOTB frequently used enum variants and macros
+
+| **Shortcut/Macro/Variant** | **Type / Usage**                    | **Description**                                                                                   |
+| -------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `Some`                     | Enum variant (`Option<T>`)          | Wraps a value to indicate its presence (e.g. `Some(42)` means “there is a value 42”).            |
+| `None`                     | Enum variant (`Option<T>`)          | Represents the absence of a value in an `Option` (i.e. “no value”).                                |
+| `Ok`                       | Enum variant (`Result<T, E>`)       | Signifies success in a computation returning a `Result` (e.g. `Ok("all good")`).                  |
+| `Err`                      | Enum variant (`Result<T, E>`)       | Indicates an error or failure in a computation returning a `Result` (e.g. `Err("oops")`).          |
+| `vec!`                     | Macro                               | Creates a `Vec` from a list of elements (e.g. `vec![1, 2, 3]` produces a vector of integers).       |
+| `println!`                 | Macro                               | Prints formatted text to standard output, appending a newline at the end.                         |
+| `format!`                  | Macro                               | Returns a formatted `String` (similar to `printf` in C, but without printing it).                |
+| `dbg!`                     | Macro                               | Prints a value (with file and line number) for debugging purposes and returns the value unmodified. |
+| `panic!`                   | Macro                               | Causes the current thread to panic (i.e. terminate with an error message).                       |
+| `assert!`                  | Macro                               | Checks that a condition is true at runtime, panicking if it is not.                               |
+| `assert_eq!`               | Macro                               | Asserts that two values are equal, panicking if they differ.                                      |
+| `assert_ne!`               | Macro                               | Asserts that two values are not equal, panicking if they are equal.                               |
+| `unreachable!`             | Macro                               | Marks code that should never be executed (panics if it is reached).                                |
+| `todo!`                    | Macro                               | Serves as a placeholder for unfinished code; it panics when executed.                            |
+
  
