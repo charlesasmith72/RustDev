@@ -209,5 +209,48 @@ fn main() {
 🔹 **Rust encourages explicit handling of missing or failing cases**, making programs more predictable and reliable. 🚀
 
 ---
+## Methods commonly used with Rust's `Option<T>` and `Result<T, E>` enums:
 
-Let me know if you need any more details! 😊
+### **Methods for `Option<T>` and `Result<T, E>` Enums in Rust**
+
+#### **1. `Option<T>` Methods**
+| Method | Description |
+|---------|------------|
+| `.is_some()` | Returns `true` if the `Option` contains a value (`Some`). |
+| `.is_none()` | Returns `true` if the `Option` is `None`. |
+| `.unwrap()` | Returns the value inside `Some`, panics if `None`. |
+| `.expect(msg)` | Returns the value inside `Some`, panics with a custom message if `None`. |
+| `.unwrap_or(default)` | Returns the value inside `Some`, otherwise returns `default`. |
+| `.unwrap_or_else(func)` | Returns the value inside `Some`, otherwise calls `func` to generate a value. |
+| `.map(func)` | Applies a function to the `Some` value, returning `Some(new_value)`, or `None` if it was `None`. |
+| `.map_or(default, func)` | If `Some`, applies `func` to the value; otherwise, returns `default`. |
+| `.map_or_else(default_func, func)` | If `Some`, applies `func`; otherwise, calls `default_func` to generate a value. |
+| `.and(option_b)` | Returns `option_b` if `self` is `Some`, otherwise returns `None`. |
+| `.and_then(func)` | Applies `func` to the `Some` value, returning the new `Option`. If `None`, returns `None`. |
+| `.or(option_b)` | Returns `self` if it is `Some`, otherwise returns `option_b`. |
+| `.or_else(func)` | Returns `self` if it is `Some`, otherwise calls `func` and returns its result. |
+| `.filter(predicate)` | If `Some`, returns `Some` only if the value satisfies `predicate`, otherwise `None`. |
+| `.zip(other)` | Combines two `Option`s into a tuple if both are `Some`, otherwise returns `None`. |
+| `.transpose()` | Converts `Option<Result<T, E>>` into `Result<Option<T>, E>`. |
+
+#### **2. `Result<T, E>` Methods**
+| Method | Description |
+|---------|------------|
+| `.is_ok()` | Returns `true` if the `Result` is `Ok`. |
+| `.is_err()` | Returns `true` if the `Result` is `Err`. |
+| `.unwrap()` | Returns the value inside `Ok`, panics if `Err`. |
+| `.expect(msg)` | Returns the value inside `Ok`, panics with a custom message if `Err`. |
+| `.unwrap_err()` | Returns the error inside `Err`, panics if `Ok`. |
+| `.expect_err(msg)` | Returns the error inside `Err`, panics with a custom message if `Ok`. |
+| `.unwrap_or(default)` | Returns the value inside `Ok`, otherwise returns `default`. |
+| `.unwrap_or_else(func)` | Returns the value inside `Ok`, otherwise calls `func` with the error. |
+| `.map(func)` | Applies a function to the `Ok` value, returning `Ok(new_value)`, or propagating `Err`. |
+| `.map_err(func)` | Applies a function to the `Err` value, transforming the error type. |
+| `.map_or(default, func)` | If `Ok`, applies `func` to the value; otherwise, returns `default`. |
+| `.map_or_else(err_func, ok_func)` | If `Ok`, applies `ok_func`; otherwise, applies `err_func` to the error. |
+| `.and(result_b)` | Returns `result_b` if `self` is `Ok`, otherwise returns `Err`. |
+| `.and_then(func)` | If `Ok`, applies `func`, returning a new `Result`. If `Err`, returns `Err`. |
+| `.or(result_b)` | Returns `self` if it is `Ok`, otherwise returns `result_b`. |
+| `.or_else(func)` | Returns `self` if it is `Ok`, otherwise calls `func` and returns its result. |
+| `.transpose()` | Converts `Result<Option<T>, E>` into `Option<Result<T, E>>`. |
+
