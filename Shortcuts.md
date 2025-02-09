@@ -276,4 +276,14 @@ fn main() {
 | `.or_else(func)` | Returns `self` if it is `Ok`, otherwise calls `func` and returns its result. |
 | `.transpose()` | Converts `Result<Option<T>, E>` into `Option<Result<T, E>>`. |
 
+## **Documentation Comments**
+- Rust supports doc comments (`///`) that generate documentation via `cargo doc`.
+
+Example:
+```rust
+/// Adds two numbers.
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+```
 
