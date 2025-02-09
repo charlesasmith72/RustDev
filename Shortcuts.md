@@ -276,14 +276,14 @@ fn main() {
 | `.or_else(func)` | Returns `self` if it is `Ok`, otherwise calls `func` and returns its result. |
 | `.transpose()` | Converts `Result<Option<T>, E>` into `Option<Result<T, E>>`. |
 
-## **Documentation Comments**
-- Rust supports doc comments (`///`) that generate documentation via `cargo doc`.
-
-Example:
-```rust
-/// Adds two numbers.
-fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
-```
+## **Documentation Syntax** 
+| Syntax | Scope | Example |
+|--------|-------|---------|
+| `///` | Next item (function, struct, etc.) | `/// Adds two numbers.` |
+| `/** ... */` | Next item (multi-line) | `/** Multi-line doc */` |
+| `//!` | Entire crate/module | `//! This crate provides math functions.` |
+| `/*! ... */` | Entire crate/module (multi-line) | `/*! Crate-level docs */` |
+| `#[doc = "..."]` | Procedural macros/code-gen | `#[doc = "Generated doc"]` |
+| `//` | Single-line comment | `// This is ignored by rustdoc` |
+| `/* ... */` | Multi-line comment | `/* Also ignored by rustdoc */` |
 
