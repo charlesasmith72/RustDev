@@ -13,11 +13,11 @@ Below is a complete, beginner-friendly example that walks you through packaging 
    cargo install wasm-pack
    ```
    This tool simplifies building Rust code as WASM.
-You can check if wasm-pack is installed by opening your terminal and running:
-
-```bash
-wasm-pack --version
-```
+   You can check if wasm-pack is installed by opening your terminal and running:
+   
+   ```bash
+   wasm-pack --version
+   ```
 
 If it's installed, you'll see its version number (for example, `wasm-pack 0.10.3`). If you get an error like "command not found," then you need to install it. 
 
