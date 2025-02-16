@@ -34,6 +34,7 @@ cookie = "0.18.0"
 | `serde` | Serialization and deserialization of data |
 | `serde_json` | JSON handling library |
 | `cookie` | Session and cookie management |
+
 If you want HTTPS support, add:
 ```toml
 rustls = "0.21"
