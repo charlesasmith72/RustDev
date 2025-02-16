@@ -25,7 +25,14 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 cookie = "0.17"
 ```
-
+### **Summary of Dependencies**
+| Dependency    | Purpose |
+|--------------|---------|
+| `hyper` | HTTP server and client library |
+| `tokio` | Asynchronous runtime for handling concurrent requests |
+| `serde` | Serialization and deserialization of data |
+| `serde_json` | JSON handling library |
+| `cookie` | Session and cookie management |
 If you want HTTPS support, add:
 ```toml
 rustls = "0.21"
