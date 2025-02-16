@@ -1,3 +1,8 @@
+Below is an example of a self-contained Rust module (e.g. named “web_server.rs”) that explains each part of a simple HTTP server with routing, request handling, and even simulated session/cookie management. In addition, we show how you could compile the module as WebAssembly (WASM) for the browser (although note that a “real” server in the browser isn’t possible—you’d instead run client code that mimics server functionality). Comments on each line explain what each part of the code does. You can use this tutorial as a starting point and then build out features (like proper TLS/HTTPS via external crates) as needed.
+
+---
+
+```rust
 // web_server.rs
 //
 // This module demonstrates a very basic HTTP server built using only Rust’s standard library,
@@ -168,3 +173,33 @@ mod wasm {
         response.to_string()
     }
 }
+```
+
+---
+
+### Step-by-Step Explanation
+
+1. **Importing Standard Modules:**  
+   The code begins by importing necessary traits and modules from Rust’s standard library such as `TcpListener` (for binding to a port) and `TcpStream` (for handling individual connections). This allows our server to handle raw TCP connections, which is the basis for HTTP.
+
+2. **Request Struct and Parser:**  
+   We define a simple `Request` struct that holds the HTTP method, path, and an optional cookie header. The `parse_request` function converts the raw byte data into a string, then splits it into lines to extract the method, URL path, and any cookie data provided by the client.
+
+3. **Handling Client Connections:**  
+   The `handle_client` function reads data from the TCP stream, parses the HTTP request, and uses simple routing logic. Depending on the requested URL (for example, `/` for the home page or `/about` for an about page), it selects a pre-canned response. It also simulates session/cookie management by including a `Set-Cookie` header when serving the home page.
+
+4. **Running the Server:**  
+   The `run_server` function binds the server to a local address (`127.0.0.1:7878`) and listens for incoming connections. For each connection, it spawns a new thread to handle the client independently. This simple concurrency model allows the server to handle multiple connections.
+
+5. **HTTPS Note:**  
+   While the code above implements HTTP support, HTTPS requires TLS. The Rust standard library does not include TLS support, so in a production system you would integrate an external crate such as `rustls` to add HTTPS capability.
+
+6. **WASM Module:**  
+   The code also includes a conditional compilation module for WebAssembly (enabled when compiling for the `wasm32` target). Instead of listening on a TCP port (which isn’t possible in a browser), it exports a function `handle_request` using `wasm_bindgen`. This function simulates handling a request string and returns a response. This could be integrated into a browser-based application to mimic server-side logic.
+
+7. **Running as an External Module:**  
+   Since all code is contained in an external `.rs` file, you can include it in a larger project by using Rust’s module system. For example, you might include it with `mod web_server;` in your main file and then call `web_server::run_server()` (for native execution) or bind the WASM functions as needed.
+
+---
+
+This tutorial provides a beginner-friendly, annotated example covering the requested features with static data. You can extend this example by integrating more robust libraries for routing, session management, and HTTPS support as your application grows.
