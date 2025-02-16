@@ -1,40 +1,63 @@
-This error indicates that the WASM binary data is either incomplete or corrupted when it's being decoded from the Base64 string. Essentially, WebAssembly.instantiate() is receiving data that doesn’t match the expected format of a valid WASM binary.
+You can write a simple Rust program that reads a WASM file, converts its contents to a Base64 string, and prints it out. Here's an example:
 
-Here are some steps to troubleshoot and resolve the issue:
+1. **Create a new Cargo project:**
 
-1. **Verify the Base64 Conversion:**  
-   Make sure that your Base64 conversion process (whether done in Rust or another tool) reads the entire WASM file and encodes it correctly. If you're using the Rust example provided earlier, double-check that the file is read completely without any interruptions.
+   ```bash
+   cargo new wasm_to_base64
+   cd wasm_to_base64
+   ```
 
-2. **Check for Truncation or Formatting Issues:**  
-   Ensure that when you embed the Base64 string into your HTML or JavaScript, the string is not truncated or split improperly. Sometimes copying and pasting long strings can introduce unwanted line breaks or whitespace.
+2. **Add the Base64 dependency:**
 
-3. **Confirm the WASM File Integrity:**  
-   Before converting to Base64, try running the WASM file directly (via a simple fetch and instantiate in a minimal test) to ensure that the binary itself is valid.
+   In your `Cargo.toml`, add the following under `[dependencies]`:
 
-4. **Decode and Validate in JavaScript:**  
-   As a debugging step, you can decode the Base64 string in the browser and log the length of the resulting ArrayBuffer. Compare this length with the size of the original WASM file to ensure they match.
+   ```toml
+   [dependencies]
+   base64 = "0.21"
+   ```
 
-5. **Test with a Known Good File:**  
-   If possible, try converting a known valid WASM file to Base64 and see if it loads correctly. This can help narrow down whether the issue is with the conversion process or the original binary.
+3. **Write the conversion code:**
 
-For example, you might include some debug code like:
+   Replace the contents of `src/main.rs` with the following:
 
-```js
-function base64ToArrayBuffer(base64) {
-  const binaryString = atob(base64);
-  console.log('Decoded binary length:', binaryString.length);
-  const len = binaryString.length;
-  const bytes = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-  return bytes.buffer;
-}
+   ```rust
+   use std::env;
+   use std::fs;
+   use base64::Engine;
 
-const wasmArrayBuffer = base64ToArrayBuffer(base64Wasm);
-console.log('ArrayBuffer byteLength:', wasmArrayBuffer.byteLength);
+   fn main() -> std::io::Result<()> {
+       // Expect the WASM file path as the first argument.
+       let args: Vec<String> = env::args().collect();
+       if args.len() != 2 {
+           eprintln!("Usage: {} <wasm-file>", args[0]);
+           std::process::exit(1);
+       }
+
+       let wasm_path = &args[1];
+       // Read the WASM file into a byte vector.
+       let wasm_bytes = fs::read(wasm_path)?;
+       
+       // Encode the bytes as a Base64 string.
+       let encoded = base64::engine::general_purpose::STANDARD.encode(wasm_bytes);
+       
+       // Print the Base64 string.
+       println!("{}", encoded);
+       Ok(())
+   }
+   ```
+
+4. **Run the program:**
+
+   Build and run your program with the path to your WASM file as an argument:
+
+   ```bash
+   cargo run -- path/to/hello_wasm_bg.wasm
+   ```
+
+This will output the Base64 representation of your WASM binary to the terminal. You can redirect the output to a file if needed:
+
+```bash
+cargo run -- path/to/hello_wasm_bg.wasm > hello_wasm_bg.wasm.base64.txt
 ```
 
-This way, you can compare the lengths with what you expect based on the original file size.
-
-By ensuring the Base64 conversion is accurate and that the full, unmodified string is used in your application, you should be able to eliminate the "reached end while decoding length" error.
+This approach uses Rust's standard library to read files and the [base64 crate](https://crates.io/crates/base64) to handle the encoding.
