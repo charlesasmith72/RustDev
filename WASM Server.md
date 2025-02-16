@@ -203,3 +203,38 @@ mod wasm {
 ---
 
 This tutorial provides a beginner-friendly, annotated example covering the requested features with static data. You can extend this example by integrating more robust libraries for routing, session management, and HTTPS support as your application grows.
+
+Below is an example of a simple `main.rs` file that imports the external module (assumed to be in `web_server.rs`) and runs the server. Make sure that both files are in the same project directory (or adjust the module path accordingly).
+
+```rust
+// main.rs
+//
+// This is the entry point for our application. It imports the external module
+// (web_server.rs) and calls the run_server function to start the HTTP server.
+
+mod web_server; // Declare that the web_server module exists in web_server.rs
+
+fn main() {
+    // Run the server if not compiling for WASM (as defined in web_server.rs).
+    // This starts the server on the specified address and port.
+    web_server::run_server();
+}
+```
+
+### How to Run
+
+1. **Ensure File Structure:**  
+   Place both `main.rs` and `web_server.rs` in the `src` directory of your Rust project (created via `cargo new your_project`).
+
+2. **Compile and Run:**  
+   Open your terminal, navigate to your project directory, and run:
+   ```bash
+   cargo run
+   ```
+   This will compile your project and start the server. You should see output similar to:
+   ```
+   Server running on http://127.0.0.1:7878
+   ```
+   Then, you can open your browser and navigate to `http://127.0.0.1:7878` (or `/about`) to see the responses.
+
+This setup demonstrates how to integrate an external module (`web_server.rs`) from your main application and run the server.
