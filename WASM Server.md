@@ -46,33 +46,60 @@ hyper-rustls = "0.24"
 ## **Step 2: Creating a Basic HTTP Server**
 Create `src/main.rs`:
 
+Here is your Rust code with detailed comments explaining each line:
+
 ```rust
+// Import necessary modules from the `hyper` crate for handling HTTP requests and responses
 use hyper::{Body, Request, Response, Server};
+// Import utilities for defining services (routes) dynamically
 use hyper::service::{make_service_fn, service_fn};
+// Import `Infallible` to indicate functions that never return an error
 use std::convert::Infallible;
+// Import `SocketAddr` to define the server's IP address and port
 use std::net::SocketAddr;
+// Import `tokio::task` for handling asynchronous tasks (not used directly in this example)
 use tokio::task;
 
+// Asynchronous function to handle incoming HTTP requests
 async fn handle_request(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    // Respond with a simple text message
     Ok(Response::new(Body::from("Hello, Rust Web Server!")))
 }
 
+// Main entry point for the application using the Tokio async runtime
 #[tokio::main]
 async fn main() {
+    // Define the server's IP address and port (127.0.0.1:8080)
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
 
+    // Create a service that wraps the request handler function
     let make_svc = make_service_fn(|_conn| async {
+        // `Ok::<_, Infallible>` ensures that this closure always returns a valid service
         Ok::<_, Infallible>(service_fn(handle_request))
     });
 
+    // Bind the server to the specified address and attach the service handler
     let server = Server::bind(&addr).serve(make_svc);
 
+    // Print a message indicating where the server is running
     println!("Running on http://{}", addr);
+
+    // Run the server and handle any errors that may occur
     if let Err(e) = server.await {
+        // Print an error message if the server fails
         eprintln!("Server error: {}", e);
     }
 }
 ```
+
+### **Key Takeaways**
+1. **`hyper::{Body, Request, Response, Server}`**: Provides HTTP handling functionalities.
+2. **`make_service_fn` and `service_fn`**: Create dynamic services for handling requests.
+3. **`SocketAddr::from(([127, 0, 0, 1], 8080))`**: Defines the server's IP (`127.0.0.1`) and port (`8080`).
+4. **Async/Await with `tokio`**: Handles non-blocking operations efficiently.
+5. **Error Handling**: The server runs asynchronously and handles errors gracefully.
+
+This provides a minimal but well-structured Rust web server using `hyper` and `tokio`. 🚀
 Run it:
 ```sh
 cargo run
