@@ -19,11 +19,12 @@ cd rust_webserver
 Add dependencies to `Cargo.toml`:
 ```toml
 [dependencies]
-hyper = { version = "0.14", features = ["full"] }
+hyper = { version = "1.5.2", features = ["full"] }
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-cookie = "0.17"
+cookie = "0.18.0"
+
 ```
 ### **Summary of Dependencies**
 | Dependency    | Purpose |
