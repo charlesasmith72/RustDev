@@ -18,16 +18,15 @@ Below is a complete, beginner-friendly example that walks you through packaging 
    ```bash
    wasm-pack --version
    ```
+   If it's installed, you'll see its version number (for example, `wasm-pack 0.10.3`). If you get an error like "command not found," then you need to install it. 
 
-If it's installed, you'll see its version number (for example, `wasm-pack 0.10.3`). If you get an error like "command not found," then you need to install it. 
-
-Alternatively, you can run:
-
-```bash
-which wasm-pack
-```
-
-This will display the path to the wasm-pack executable if it's installed on your system.
+   Alternatively, you can run:
+   
+   ```bash
+   which wasm-pack
+   ```
+   
+   This will display the path to the wasm-pack executable if it's installed on your system.
 ---
 
 ## Step 2: Create a New Rust Library
