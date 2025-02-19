@@ -37,7 +37,8 @@ The `--locked` flag ensures that Cargo uses the exact versions specified in the 
 After installation, simply run:
 
 ```bash
-create-tauri-app
+cargo create-tauri-app
+
 ```
 
 Follow the interactive prompts. The generator will create a new project directory (for example, `my-tauri-app`) with a structure similar to:
