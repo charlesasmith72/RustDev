@@ -59,7 +59,7 @@ Inside your project folder, create a directory (for example, `frontend`) to hold
 ### 4.3: Initialize Tauri in Your Project
 Run the following command to add Tauri support:
 ```bash
-tauri init
+cargo tauri init
 ```
 During the interactive setup, you’ll be prompted for a few configuration details:
 - **App Name:** (default is your project name, e.g., `my-tauri-app`)
@@ -74,7 +74,7 @@ This command creates a new directory (`src-tauri`) with all the Rust code and co
 
 With your project configured, you can now launch your Tauri app in development mode:
 ```bash
-tauri dev
+cargo tauri dev
 ```
 This command does the following:
 - **Builds the Rust backend:** Cargo compiles the Rust code in `src-tauri`.
@@ -88,7 +88,7 @@ As you modify your Rust code or your web assets, you can re-run this command to 
 
 When you’re ready to distribute your application, use:
 ```bash
-tauri build
+cargo tauri build
 ```
 This command packages your app into a native installer or executable (depending on your operating system). The build output can be found in the `src-tauri/target/release` directory.
 
@@ -99,7 +99,7 @@ This command packages your app into a native installer or executable (depending 
 - **Inspect App Info:**
   To view configuration and system details:
   ```bash
-  tauri info
+  cargo tauri info
   ```
 - **Tweak Configuration:**
   The configuration file (`src-tauri/tauri.conf.json` or `tauri.conf.toml`) lets you adjust settings such as window properties and security policies.
