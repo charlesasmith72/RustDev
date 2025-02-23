@@ -61,18 +61,40 @@ While not “encoders” in the traditional sense, hash functions are one‑way 
 
 ### Summary Table
 
-| **Scheme**         | **Type**       | **Blockchains/Usage Examples**                                 |
-|--------------------|----------------|----------------------------------------------------------------|
-| Hexadecimal        | Encoder        | Bitcoin, Ethereum, and nearly all blockchains (hash representation) |
-| Base58Check        | Encoder        | Bitcoin (legacy addresses), Litecoin, Dogecoin, Bitcoin Cash   |
-| Bech32             | Encoder        | Bitcoin (SegWit addresses), Cardano (Shelley addresses)          |
-| SS58               | Encoder        | Polkadot, Kusama                                               |
-| Base64             | Encoder        | Various off‑chain uses; IPFS, and data transport contexts        |
-| SHA‑256            | Hash Function  | Bitcoin, Bitcoin Cash, Bitcoin SV, etc.                        |
-| Keccak‑256         | Hash Function  | Ethereum (and Ethereum Classic)                                |
-| Blake2b            | Hash Function  | Cardano                                                        |
-| RIPEMD‑160         | Hash Function  | Bitcoin (used in address generation)                           |
+Here’s a recap of the encoding and hashing schemes from the earlier table:
 
 ---
 
-This summary shows that while many blockchains use similar fundamental components, they often combine different encoding methods and hash functions to achieve their specific design goals in security, efficiency, and usability.
+### **Encoders (Reversible Transformations)**
+Encoders are used to make binary data more readable and compatible with different systems.
+
+| **Scheme**      | **Type**   | **Usage Examples** |
+|---------------|-----------|------------------|
+| **Hexadecimal (Hex)** | Encoder | Used to display raw hash outputs and public keys in Bitcoin, Ethereum, and nearly all blockchains |
+| **Base58Check** | Encoder | Used for Bitcoin legacy addresses (P2PKH, P2SH), also in Litecoin, Dogecoin, and Bitcoin Cash |
+| **Bech32** | Encoder | Used for Bitcoin SegWit addresses and Cardano Shelley addresses, with built-in error detection |
+| **SS58** | Encoder | Used in Polkadot and Kusama address encoding to distinguish different networks |
+| **Base64** | Encoder | Used for encoding transaction metadata, IPFS content, and various off-chain applications |
+
+---
+
+### **Hash Functions (One-Way Transformations)**
+Hash functions convert data into a fixed-size string that cannot be reversed.
+
+| **Scheme**      | **Type**  | **Usage Examples** |
+|---------------|----------|------------------|
+| **SHA-256** | Hash Function | Used in Bitcoin (block headers, mining proof-of-work), Bitcoin Cash, and Bitcoin SV |
+| **Keccak-256** | Hash Function | Used in Ethereum (address generation, transaction signing) and Ethereum Classic |
+| **Blake2b** | Hash Function | Used in Cardano (address hashing, cryptographic operations) |
+| **RIPEMD-160** | Hash Function | Used in Bitcoin (after SHA-256) to generate shorter public key hashes for addresses |
+
+---
+
+### **Key Differences**
+- **Encoders are reversible**, meaning the original binary data can be retrieved.
+- **Hash functions are one-way**, meaning they are designed to be irreversible.
+- **Most blockchains use both**:  
+  - **Hashing** secures transaction data, block headers, and addresses.  
+  - **Encoding** formats the hashed data into readable and shareable representations.
+
+Would you like any additional details on specific schemes?
