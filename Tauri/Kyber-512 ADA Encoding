@@ -1,0 +1,14 @@
+Yes, **Kyber-512** has a **fixed-length** output for both keys and ciphertexts. The lengths are as follows:
+
+| **Kyber Variant** | **Public Key Size** | **Secret Key Size** | **Ciphertext Size** |
+|------------------|------------------|------------------|------------------|
+| **Kyber-512** | **800 bytes** | **1,632 bytes** | **768 bytes** |
+| **Kyber-768** | **1,184 bytes** | **2,400 bytes** | **1,088 bytes** |
+| **Kyber-1024** | **1,568 bytes** | **3,168 bytes** | **1,568 bytes** |
+
+### **Key Points:**
+- **Fixed-Length Outputs**: All Kyber variants, including **Kyber-512**, have predefined output sizes.
+- **Deterministic Encoding**: The keys and ciphertexts are always the same size regardless of the plaintext input.
+- **Fits in Cardano Metadata**: The **800-byte public key** and **768-byte ciphertext** fit within metadata limits.
+
+Would you like a Rust example for key generation and encryption using **Kyber-512**? 🚀
