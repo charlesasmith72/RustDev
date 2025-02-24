@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri App</title>
+    <script type="module" src="/main.js" defer></script>
+    <style>
+ body {
+      margin: 0;
+      background-color: #222; /* Page background just for contrast */
+      font-family: sans-serif;
+    }
+
+    /* The overall browser “chrome” bar */
+    .browser-chrome {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      background-color: #2b2b2b;  /* Dark background */
+      color: #ccc;                /* Lighter text/icons */
+      padding: 0 10px;
+    }
+
+    /* Navigation buttons (Back, Forward) */
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-button {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .nav-button:hover {
+      background-color: #3a3a3a;
+    }
+
+    /* Address bar container */
+    .address-bar {
+      flex: 1; /* Takes up remaining space */
+      display: flex;
+      align-items: center;
+      background-color: #3a3a3a;
+      border: 1px solid #444;
+      border-radius: 20px; /* Rounded “pill” shape */
+      padding: 0 10px;
+      margin: 0 10px;
+      min-width: 100px;
+    }
+
+    /* Address bar text input */
+    .address-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ccc;
+      font-size: 14px;
+      margin: 0 5px;
+    }
+
+    /* Refresh button inside address bar */
+    .address-bar button {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .address-bar button:hover {
+      background-color: #4a4a4a;
+    }
+
+    /* Options button (ellipsis) on the far right */
+    .options-button {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .options-button:hover {
+      background-color: #3a3a3a;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="browser-chrome">
+      <!-- Back/Forward buttons -->
+      <div class="nav-buttons">
+        <button class="nav-button" onclick="goBack()">&#x25C0;</button>
+        <button class="nav-button" onclick="goForward()">&#x25B6;</button>
+      </div>
+  
+      <!-- Address bar -->
+      <div class="address-bar">
+        <input type="text" placeholder="Search or enter address" />
+        <button onclick="refreshPage()">&#x21bb;</button>
+      </div>
+  
+      <!-- Options button (ellipsis) -->
+      <button class="options-button" onclick="openOptions()">&#8942;</button>
+    </div>
+  
+    <main class="container">
+      <h1>Welcome to Paradox</h1>
+
+      <div class="row">
+        <a href="https://tauri.app" target="_blank">
+          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
+        </a>
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+          target="_blank"
+        >
+          <img
+            src="/assets/javascript.svg"
+            class="logo vanilla"
+            alt="JavaScript logo"
+          />
+        </a>
+      </div>
+      <p>Click on the Tauri logo to learn more about the framework</p>
+
+      <form class="row" id="greet-form">
+        <input id="greet-input" placeholder="Enter a name..." />
+        <button type="submit">Greet</button>
+      </form>
+      <p id="greet-msg"></p>
+    </main>
+  </body>
+</html>
