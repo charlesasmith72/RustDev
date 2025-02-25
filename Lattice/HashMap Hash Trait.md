@@ -132,3 +132,78 @@ This example demonstrates how you could supply your own hasher, but most users r
 - When you insert or look up a key, the `HashMap` does **both** steps internally, behind the scenes, using the key’s `hash` implementation and the hasher’s logic.  
 
 With these details, you can see how Rust transforms a key into a final numeric hash for indexing in a `HashMap`. Most of the time, you don’t need to worry about these internals—just let Rust do its work. But if you have custom data structures, or performance/security concerns, you can provide your own implementations of `Hash` or `Hasher` to customize the process.
+Below is a **super-simplified** example of how you might replicate the core steps of “hashing a key, then mapping it into a bucket index.” Real Rust code uses traits like `Hash` and `Hasher`, and a more sophisticated algorithm. However, this snippet shows the **basic idea** from scratch:
+
+```rust
+/// A very simplistic "hasher" that just sums the bytes of a string.
+/// This is NOT a secure or collision-resistant approach—it's purely for demonstration.
+fn very_basic_hasher(input: &str) -> u64 {
+    let mut sum: u64 = 0;
+    for &byte in input.as_bytes() {
+        // Use wrapping_add to avoid overflow panics
+        sum = sum.wrapping_add(byte as u64);
+    }
+    sum
+}
+
+/// Takes the hashed value and maps it into a "bucket index"
+/// by using modulo arithmetic. Again, simplified demonstration only.
+fn get_bucket_index(hash_value: u64, bucket_count: usize) -> usize {
+    (hash_value as usize) % bucket_count
+}
+
+/// Combines the above steps: hashes a string key, then computes which bucket index it should go in.
+fn basic_hash_insert(key: &str, bucket_count: usize) -> usize {
+    // 1. Hash the key (turn it into a numeric value).
+    let hash_val = very_basic_hasher(key);
+
+    // 2. Convert the hash value to a bucket index.
+    let index = get_bucket_index(hash_val, bucket_count);
+
+    // In a real HashMap, you'd now store the key-value pair in that bucket.
+    // For this demo, we just return the index.
+    index
+}
+
+fn main() {
+    let buckets = 16;
+    let key = "Hello, galaxy!";
+
+    // Insert the key and figure out which bucket it goes into.
+    let bucket_index = basic_hash_insert(key, buckets);
+
+    println!("Key: '{}', Hash Bucket Index: {}", key, bucket_index);
+}
+```
+
+### What This Demonstration Does
+
+1. **`very_basic_hasher(input: &str) -> u64`**  
+   - Iterates over each byte in the string.  
+   - Adds (`wrapping_add`) that byte to a running sum.  
+   - Returns a final 64-bit integer that (very loosely) represents the string.  
+
+2. **`get_bucket_index(hash_value: u64, bucket_count: usize) -> usize`**  
+   - Takes the hash value and does a `% bucket_count` to pick which “bucket” it belongs to, simulating how a hash map stores items internally.  
+
+3. **`basic_hash_insert(key, bucket_count)`**  
+   - Combines those steps:  
+     1. Hashes the key with `very_basic_hasher`.  
+     2. Computes the bucket index with `get_bucket_index`.  
+     3. Returns that index.  
+
+4. **`main()`**  
+   - Shows how you might use these helper functions.  
+
+### Important Caveats
+
+- **This is not how real hashing or Rust’s standard `HashMap` works internally.** They use more sophisticated (and safer) algorithms.  
+- **Security & Collision Resistance**: This simplistic approach (just summing bytes) is extremely collision-prone and not cryptographically secure.  
+- **Production Rust**: Normally, you’d rely on Rust’s `std::hash` and `std::collections::HashMap` to do everything for you automatically, rather than writing your own hasher.  
+
+Still, this toy example illustrates the **core mechanics**:  
+1. Turn the key into a numeric “hash.”  
+2. Use modulo arithmetic to pick a bucket index.  
+3. (If this were a real map, handle collisions in that bucket.)
+
+Use this as a learning tool to see how hashing and indexing fundamentally work behind the scenes.
