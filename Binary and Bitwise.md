@@ -387,4 +387,124 @@ Rust offers extensive support for bitwise operations, including:
 - **Efficient bitflags via the `bitflags` crate**
 - **SIMD optimizations for fast bitwise processing**
 
-Would you like an example of bitwise operations for a specific problem?
+The **UTF-8 binary representations** for characters depend on their **Unicode code points**. UTF-8 encoding uses **variable-length encoding**:
+- **1 byte (7-bit ASCII)** → `U+0000` to `U+007F` (Standard ASCII)
+- **2 bytes** → `U+0080` to `U+07FF`
+- **3 bytes** → `U+0800` to `U+FFFF`
+- **4 bytes** → `U+10000` to `U+10FFFF` (Emoji & rare characters)
+
+### **1. UTF-8 Binary Table (Basic ASCII)**
+These **1-byte UTF-8 characters** match ASCII.
+
+| **Character** | **Hex (UTF-8)** | **Binary (UTF-8)** |
+|--------------|----------------|--------------------|
+| `NUL` (null) | `00` | `00000000` |
+| `Space` (` `) | `20` | `00100000` |
+| `!` | `21` | `00100001` |
+| `A` | `41` | `01000001` |
+| `B` | `42` | `01000010` |
+| `C` | `43` | `01000011` |
+| `D` | `44` | `01000100` |
+| `E` | `45` | `01000101` |
+| `F` | `46` | `01000110` |
+| `G` | `47` | `01000111` |
+| `H` | `48` | `01001000` |
+| `I` | `49` | `01001001` |
+| `J` | `4A` | `01001010` |
+| `K` | `4B` | `01001011` |
+| `L` | `4C` | `01001100` |
+| `M` | `4D` | `01001101` |
+| `N` | `4E` | `01001110` |
+| `O` | `4F` | `01001111` |
+| `P` | `50` | `01010000` |
+| `Q` | `51` | `01010001` |
+| `R` | `52` | `01010010` |
+| `S` | `53` | `01010011` |
+| `T` | `54` | `01010100` |
+| `U` | `55` | `01010101` |
+| `V` | `56` | `01010110` |
+| `W` | `57` | `01010111` |
+| `X` | `58` | `01011000` |
+| `Y` | `59` | `01011001` |
+| `Z` | `5A` | `01011010` |
+| `a` | `61` | `01100001` |
+| `b` | `62` | `01100010` |
+| `c` | `63` | `01100011` |
+| `d` | `64` | `01100100` |
+| `e` | `65` | `01100101` |
+| `f` | `66` | `01100110` |
+| `g` | `67` | `01100111` |
+| `h` | `68` | `01101000` |
+| `i` | `69` | `01101001` |
+| `j` | `6A` | `01101010` |
+| `k` | `6B` | `01101011` |
+| `l` | `6C` | `01101100` |
+| `m` | `6D` | `01101101` |
+| `n` | `6E` | `01101110` |
+| `o` | `6F` | `01101111` |
+| `p` | `70` | `01110000` |
+| `q` | `71` | `01110001` |
+| `r` | `72` | `01110010` |
+| `s` | `73` | `01110011` |
+| `t` | `74` | `01110100` |
+| `u` | `75` | `01110101` |
+| `v` | `76` | `01110110` |
+| `w` | `77` | `01110111` |
+| `x` | `78` | `01111000` |
+| `y` | `79` | `01111001` |
+| `z` | `7A` | `01111010` |
+| `{` | `7B` | `01111011` |
+| `|` | `7C` | `01111100` |
+| `}` | `7D` | `01111101` |
+| `~` | `7E` | `01111110` |
+
+---
+
+### **2. Multi-Byte UTF-8 Characters**
+For characters beyond **ASCII (U+007F and above)**, UTF-8 uses **multiple bytes**:
+
+| **Character** | **Hex Code (UTF-8)** | **Binary (UTF-8)** |
+|--------------|----------------|--------------------|
+| `Ç` | `C3 87` | `11000011 10000111` |
+| `é` | `C3 A9` | `11000011 10101001` |
+| `ñ` | `C3 B1` | `11000011 10110001` |
+| `Ö` | `C3 96` | `11000011 10010110` |
+| `Ü` | `C3 9C` | `11000011 10011100` |
+| `€` | `E2 82 AC` | `11100010 10000010 10101100` |
+| `•` | `E2 80 A2` | `11100010 10000000 10100010` |
+| `中` | `E4 B8 AD` | `11100100 10111000 10101101` |
+| `日` | `E6 97 A5` | `11100110 10010111 10100101` |
+| `😀` | `F0 9F 98 80` | `11110000 10011111 10011000 10000000` |
+
+---
+
+### **3. How to Get UTF-8 Binary in Rust**
+You can extract the UTF-8 binary for **any character** in Rust:
+
+```rust
+fn main() {
+    let ch = '😀';
+    let utf8_bytes = ch.to_string().into_bytes();
+    
+    for byte in utf8_bytes {
+        println!("{:08b}", byte);
+    }
+}
+```
+For `😀`, it outputs:
+```
+11110000
+10011111
+10011000
+10000000
+```
+
+---
+
+### **4. Summary**
+- **ASCII (0-127) → Single Byte (8-bit)**
+- **Extended Latin (128-2047) → Two Bytes (16-bit)**
+- **Other Scripts (2048-65535) → Three Bytes (24-bit)**
+- **Emoji & Rare Unicode (65536+) → Four Bytes (32-bit)**
+
+Would you like a **full UTF-8 character lookup tool** in Rust? 🚀
