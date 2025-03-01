@@ -1,4 +1,6 @@
-Yes! Rust can **control a GPU and run WGSL (WebGPU Shading Language)** using the **WGPU** library. **WGPU** is a **low-level GPU API** similar to Vulkan, DirectX, and Metal but designed for **WebGPU**, enabling **compute shaders, graphics rendering, and GPU acceleration** directly from Rust.
+# WGPU
+
+Rust can **control a GPU and run WGSL (WebGPU Shading Language)** using the **WGPU** library. **WGPU** is a **low-level GPU API** similar to Vulkan, DirectX, and Metal but designed for **WebGPU**, enabling **compute shaders, graphics rendering, and GPU acceleration** directly from Rust.
 
 ---
 
