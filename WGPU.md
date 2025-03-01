@@ -19,9 +19,9 @@ This creates a new project folder with a basic `src/main.rs`.
 Open `Cargo.toml` and add the following dependencies:
 ```toml
 [dependencies]
-wgpu = "0.16"       # Provides access to the GPU for compute and graphics tasks
-pollster = "0.3"    # Simplifies running async code in a synchronous main function
-bytemuck = "1.7"    # Helps safely cast between byte slices and our data types
+wgpu = "24.0.1"       # Provides access to the GPU for compute and graphics tasks
+pollster = "0.3.0"    # Simplifies running async code in a synchronous main function
+bytemuck = "1.7"      # Helps safely cast between byte slices and our data types
 ```
 These libraries are essential:
 - **wgpu:** The primary GPU API.
