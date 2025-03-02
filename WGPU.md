@@ -56,7 +56,11 @@ Within your async `run()` function, you need to set up the GPU connection:
 ### a. Create a wgpu Instance
 This instance is the entry point for interacting with the GPU. It takes care of selecting available backends (Vulkan, Metal, DX12, etc.).
 ```rust
-let instance = wgpu::Instance::new(wgpu::Backends::all());
+ let instance = wgpu::Instance::new(&wgpu::InstanceDescriptor {
+        backends: wgpu::Backends::all(),
+        flags: wgpu::InstanceFlags::empty(),
+        backend_options: wgpu::BackendOptions::default(),
+    });
 ```
 
 ### b. Request an Adapter
