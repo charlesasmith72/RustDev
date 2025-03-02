@@ -90,6 +90,7 @@ let adapter = instance
 
    println!("{:?}", adapter);
 ```
+> ⚠️ In production, you might also want to handle the case where no adapter is found more gracefully than just .expect(...)
 
 ### c. Request a Device and Queue
 - **Device:** The primary object for creating GPU resources (buffers, textures, etc.).
