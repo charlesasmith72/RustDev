@@ -96,17 +96,51 @@ let adapter = instance
 - **Device:** The primary object for creating GPU resources (buffers, textures, etc.).
 - **Queue:** Submits commands (like our compute dispatch) to the GPU.
 ```rust
-let (device, queue) = adapter
-    .request_device(
-        &wgpu::DeviceDescriptor {
-            features: wgpu::Features::empty(),
-            limits: wgpu::Limits::default(),
-            label: None,
-        },
-        None, // Optional: Trace path for debugging
-    )
-    .await
-    .expect("Failed to create device");
+  let (device, queue) = adapter
+   .request_device(
+       &wgpu::DeviceDescriptor {
+           // Optional debugging label for the device.
+           label: Some("XOR_Device"), //⚠️ Set Device Name
+
+           // Lists the GPU features that must be enabled.
+           // Using `wgpu::Features::empty()` if you don’t strictly require any extra features.
+           required_features: wgpu::Features::empty(),
+
+           // Resource limits you expect. If the adapter can’t meet or exceed these limits,
+           // `request_device` will fail.
+           // Use `wgpu::Limits::default()` for typical use, or customize if needed.
+           required_limits: wgpu::Limits::default(),
+
+           // Provides hints to the device about memory usage/strategy.
+           // Usually `wgpu::MemoryHints::default()` is fine if you don’t need anything special.
+           memory_hints: wgpu::MemoryHints::default(),
+       },
+       // Optional trace path. `None` disables tracing.
+       None,
+   )
+   .await
+   .expect("Failed to create device");
+
+/*
+- the request_device call returns two objects as a tuple:
+
+- device – The primary handle to interact with the GPU.
+    - You create buffers, textures, samplers, pipelines, and other GPU resources from it.
+    - Think of it as the “factory” or “context” for everything you do on the GPU.
+- queue – The mechanism for submitting commands to be executed on the GPU.
+    - Once you record a series of operations (render passes, compute passes, buffer copies, etc.) into command buffers, you “submit” those to the queue.
+    - The GPU then processes them asynchronously.
+
+These two objects form the core of your application’s GPU interaction:
+
+⚠️ device -> creates resources and pipelines
+⚠️ queue -> sends commands to the GPU for execution
+
+Without them, you couldn’t create or run any GPU-based work in wgpu.
+
+*/
+println!("{:?}",device);
+println!("{:?}",queue);
 ```
 Print a confirmation that the GPU is ready:
 ```rust
