@@ -163,14 +163,18 @@ Storage buffers allow read-only access within the shader. We use `bytemuck::cast
 ```rust
 let buffer_a = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
     label: Some("Input Buffer A"),
-    contents: bytemuck::cast_slice(input_data1),
-    usage: wgpu::BufferUsages::STORAGE,
+    contents: bytemuck::cast_slice(&input_data1),
+    // We use both STORAGE (so the GPU can read/write in a compute shader)
+    // and COPY_DST (so wgpu can copy our initial data into the buffer).
+    usage: wgpu::BufferUsages::STORAGE | wgpu::BufferUsages::COPY_DST,
 });
+
 let buffer_b = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
     label: Some("Input Buffer B"),
-    contents: bytemuck::cast_slice(input_data2),
-    usage: wgpu::BufferUsages::STORAGE,
+    contents: bytemuck::cast_slice(&input_data2),
+    usage: wgpu::BufferUsages::STORAGE | wgpu::BufferUsages::COPY_DST,
 });
+
 ```
 
 ### c. Create an Output Buffer
