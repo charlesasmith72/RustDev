@@ -66,14 +66,29 @@ This instance is the entry point for interacting with the GPU. It takes care of 
 ### b. Request an Adapter
 An adapter represents a specific GPU (or virtual device) that is compatible with our requirements. Since this example is headless (no window), set `compatible_surface` to `None`.
 ```rust
+// Request an appropriate GPU adapter, specifying preferences for performance or power.
 let adapter = instance
-    .request_adapter(&wgpu::RequestAdapterOptions {
-        power_preference: wgpu::PowerPreference::default(),
-        compatible_surface: None,
-        force_fallback_adapter: false,
-    })
+    .request_adapter(
+        &wgpu::RequestAdapterOptions {
+            // Indicates whether we favor high performance (discrete GPU) or low power (integrated GPU).
+            // power_preference: HighPerformance – Tends to choose a discrete GPU (if available) for maximum performance. typically targets the most capable GPU available.
+            // power_preference: LowPower – Tends to choose an integrated or low-power GPU to save energy.
+            power_preference: wgpu::PowerPreference::HighPerformance,
+
+            // If set to `true`, forces a more compatible (often software) adapter if the preferred one can't be used.
+            // Generally, we set this to `false` to get a hardware adapter whenever possible.
+            force_fallback_adapter: false,
+
+            // A reference to the Surface (if we want rendering in a window).
+            // Using `None` for headless (offscreen) rendering or compute-only scenarios.
+            compatible_surface: None,
+        },
+    )
     .await
     .expect("Failed to find an appropriate adapter");
+    //⚠️ In production, you might also want to handle the case where no adapter is found more gracefully than just .expect(...)
+
+   println!("{:?}", adapter);
 ```
 
 ### c. Request a Device and Queue
