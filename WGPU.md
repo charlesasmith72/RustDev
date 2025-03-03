@@ -256,11 +256,24 @@ let shader_module = device.create_shader_module(wgpu::ShaderModuleDescriptor {
 ### a. Create the Compute Pipeline
 The pipeline links your shader with the GPU. By not specifying a custom layout (using `None`), wgpu auto-generates one based on shader bindings.
 ```rust
-let compute_pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
+ let compute_pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
+    // A debug label for your pipeline
     label: Some("Compute Pipeline"),
+
+    // If set to `None`, wgpu will automatically derive a pipeline layout
+    // from the shader’s declared bindings.
     layout: None,
+
+    // The compiled shader module from your WGSL (or other language)
     module: &shader_module,
-    entry_point: "main",
+
+    // The name of the entry point function in the shader (e.g. `fn main`)
+    // must be wrapped in Some(...) because it's now an Option<&str>
+    entry_point: Some("main"),
+
+    // New fields in newer wgpu versions:
+    compilation_options: wgpu::PipelineCompilationOptions::default(),
+    cache: None, // Provide a `Some(&pipeline_cache)` if you have one
 });
 ```
 
