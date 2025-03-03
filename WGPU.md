@@ -280,25 +280,44 @@ The pipeline links your shader with the GPU. By not specifying a custom layout (
 ### b. Create the Bind Group
 Bind groups attach your buffers to the corresponding bindings in your shader:
 ```rust
+// 1. Retrieve the Bind Group Layout
+//    The pipeline automatically creates a bind group layout for the first bind group index (0)
+//    based on the shader's declared bindings (@group(0) in WGSL).
 let bind_group_layout = compute_pipeline.get_bind_group_layout(0);
+
+// 2. Create a Bind Group
+//    This attaches your actual buffer resources (buffer_a, buffer_b, and output_buffer)
+//    to the slots declared in the shader.
 let bind_group = device.create_bind_group(&wgpu::BindGroupDescriptor {
+    // A human-readable label for debugging.
     label: Some("Bind Group"),
+
+    // Which layout this bind group will conform to.
+    // Must match the layout expected by the pipeline for @group(0).
     layout: &bind_group_layout,
+
+    // An array of bind group entries, each specifying a binding index and the resource.
     entries: &[
+        // Binds buffer_a to binding=0, matching the shader’s `@binding(0)`.
         wgpu::BindGroupEntry {
             binding: 0,
+            // Provide the entire buffer as the binding resource.
+            // For partial use, you could specify a sub-range, but here we do everything.
             resource: buffer_a.as_entire_binding(),
         },
+        // Binds buffer_b to binding=1, matching the shader’s `@binding(1)`.
         wgpu::BindGroupEntry {
             binding: 1,
             resource: buffer_b.as_entire_binding(),
         },
+        // Binds output_buffer to binding=2, matching the shader’s `@binding(2)`.
         wgpu::BindGroupEntry {
             binding: 2,
             resource: output_buffer.as_entire_binding(),
         },
     ],
 });
+
 ```
 Each entry maps a buffer to its corresponding binding as defined in the shader.
 
