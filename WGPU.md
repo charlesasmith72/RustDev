@@ -342,12 +342,18 @@ A compute pass encapsulates all compute work. Here, we:
 {
     let mut compute_pass = encoder.begin_compute_pass(&wgpu::ComputePassDescriptor {
         label: Some("Compute Pass"),
+
+        // New field introduced in wgpu 0.17+.
+        // If you don't need GPU timestamp queries (profiling), just set it to `None`.
+        timestamp_writes: None,
     });
+
     compute_pass.set_pipeline(&compute_pipeline);
     compute_pass.set_bind_group(0, &bind_group, &[]);
     // Dispatch one workgroup since we only have one element.
     compute_pass.dispatch_workgroups(1, 1, 1);
 }
+
 ```
 
 ### c. Copy the Result to the Staging Buffer
