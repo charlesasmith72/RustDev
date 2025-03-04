@@ -1,174 +1,133 @@
-# Nolimts
-
-## Determin Available memory
-
-## GPU speed capabailities convention(standard speeds GHZs)?
 
 
-
-## Find Current Dev CPU
-No worries! If you want to find out **what kind of CPU** you are currently running — whether you're on **Windows, Mac, Linux (including Tails), or even a phone** — here’s how you can check:
+# 🚀 Notes: **#NoLimits**
 
 ---
 
-## 🖥️ **On Windows**
+## 🧮 Determine Available Memory
 
-### Method 1: Settings
-1. Press **`Windows Key` + `I`** to open **Settings**.
+*(Leave this empty — you can fill it in later)*
+
+---
+
+## ⚡ GPU Speed Capabilities and Naming Conventions (Standard Speeds & Info)
+
+*(Leave this empty — you can fill it in later)*
+
+---
+
+## 🔎 Find Current CPU (Processor)
+
+### On Windows
+#### Method 1 - Settings
+1. Press **Windows Key + I** to open **Settings**.
 2. Go to **System > About**.
-3. Look under **Device Specifications** — your CPU name will be listed next to **Processor**.
+3. Look under **Device Specifications** for **Processor**.
 
-### Method 2: Task Manager
-1. Press **`Ctrl` + `Shift` + `Esc`** to open **Task Manager**.
+#### Method 2 - Task Manager
+1. Press **Ctrl + Shift + Esc** to open **Task Manager**.
 2. Go to the **Performance** tab.
-3. Click **CPU** on the left — your CPU model will be shown at the top-right.
+3. Click **CPU** on the left — your **CPU model** will be at the top-right.
 
 ---
 
-## 🍎 **On Mac (macOS)**
-
+### On Mac (macOS)
 1. Click the **Apple Logo** in the top-left corner.
 2. Select **About This Mac**.
-3. Your **CPU (Processor)** will be listed near the top.
+3. Your **CPU (Processor)** will be listed.
 
 ---
 
-## 🐧 **On Linux (Including Tails)**
-
-### In Terminal
-1. Open a terminal window.
-2. Run this command:
+### On Linux (Including Tails OS)
+1. Open Terminal.
+2. Run:
     ```bash
     lscpu
     ```
-3. Look for **"Model name"** — this will show your CPU name.
-
-### Example Output
-```
-Model name: Intel(R) Core(TM) i7-11800H CPU @ 2.30GHz
-```
+3. Find **Model name** — this is your CPU.
 
 ---
 
-## 📱 **On Android (Phone or Tablet)**
-
-1. Install an app like **CPU-Z** from the Play Store.
-2. Open the app — it will show your CPU name and core count.
+### On Android
+1. Install **CPU-Z** from the Play Store.
+2. Open the app to see the **CPU name and core count**.
 
 ---
 
-## 📱 **On iPhone/iPad**
-
-Apple doesn’t show detailed CPU info in the settings, but you can:
+### On iPhone / iPad
 1. Go to **Settings > General > About**.
-2. Find your **Model Name** (like iPhone 15 Pro Max).
-3. Google that model name + "CPU" (e.g., "iPhone 15 Pro Max CPU") to find out the chip (A17 Pro, for example).
+2. Find the **Model Name** (e.g., iPhone 15 Pro Max).
+3. Google "iPhone 15 Pro Max CPU" to find out the chip (A17 Pro, etc.).
 
 ---
 
-# 🔥 **What You’ll See (Example Results)**
+### 🔥 Example CPU Results
 
 | Device Type | Example CPU |
 |---|---|
-| Gaming PC | **AMD Ryzen 9 7950X** |
-| Laptop | **Intel Core i7-1360P** |
-| MacBook | **Apple M3 Pro** |
-| Linux Laptop | **AMD Ryzen 5 5600U** |
-| Android Phone | **Snapdragon 8 Gen 3** |
-| iPhone | **Apple A17 Pro** |
+| Gaming PC | AMD Ryzen 9 7950X |
+| Laptop | Intel Core i7-1360P |
+| MacBook | Apple M3 Pro |
+| Linux Laptop | AMD Ryzen 5 5600U |
+| Android Phone | Snapdragon 8 Gen 3 |
+| iPhone | Apple A17 Pro |
 
 ---
 
+## 🎮 Find Current GPU (Graphics Card)
 
-## Find Current Dev GPU
-Great question! Here’s a **step-by-step guide** on how to find out **what GPU (graphics card)** you have, whether you’re on **Windows, Mac, Linux (including Tails), or even a phone**. This works for both beginners (like a 6th grader) and web developers.
+### On Windows
+#### Method 1 - Task Manager
+1. Press **Ctrl + Shift + Esc**.
+2. Go to **Performance** tab.
+3. Select **GPU 0** (or GPU 1 if you have more than one).
+4. See your **GPU name** in the top-right.
 
----
-
-# 🖥️ **How to Find Your GPU (Graphics Card)**
-
----
-
-## ✅ **On Windows (Most Common)**
-
-### Method 1 - Using Task Manager
-1. Press **Ctrl + Shift + Esc** to open **Task Manager**.
-2. Go to the **Performance** tab.
-3. On the left side, click **GPU 0** (and GPU 1 if you have more than one).
-4. In the top-right corner, you’ll see the **GPU’s name**, like:
-   ```
-   NVIDIA GeForce RTX 4060
-   AMD Radeon RX 6700 XT
-   ```
-
-### Method 2 - Using Device Manager
-1. Right-click the **Start Menu** and select **Device Manager**.
+#### Method 2 - Device Manager
+1. Right-click **Start Menu**, select **Device Manager**.
 2. Expand **Display Adapters**.
-3. Your **GPU name** will be listed.
+3. See your **GPU name**.
 
 ---
 
-## 🍎 **On Mac (macOS)**
-
+### On Mac (macOS)
 1. Click the **Apple logo** in the top-left corner.
 2. Select **About This Mac**.
-3. Click **More Info…**.
-4. Scroll down to **Graphics** — it will show something like:
-   ```
-   Apple M3 Max (Integrated)
-   AMD Radeon Pro 5700 XT
-   ```
+3. Click **More Info...** and scroll down to **Graphics**.
 
 ---
 
-## 🐧 **On Linux (Including Tails OS)**
-
-### Using Terminal
-1. Open a **Terminal** window.
-2. Run this command:
+### On Linux (Including Tails OS)
+1. Open Terminal.
+2. Run:
     ```bash
     lspci | grep VGA
     ```
-3. You’ll see something like:
+3. This will show something like:
     ```
-    01:00.0 VGA compatible controller: NVIDIA Corporation GA104 [GeForce RTX 3070] (rev a1)
+    NVIDIA Corporation GA104 [GeForce RTX 3070]
     ```
-4. That line tells you your GPU.
 
 ---
 
-## 📱 **On Android (Phones and Tablets)**
-
-1. Install an app like **CPU-Z** from the Play Store.
-2. Open it and go to the **Devices** or **System** tab.
-3. Look for **GPU Renderer** or **Graphics**.
-   Example: Adreno 740 (Qualcomm GPUs).
+### On Android
+1. Install **CPU-Z** from the Play Store.
+2. Go to the **Devices** tab.
+3. Find **GPU Renderer** — this is your GPU.
 
 ---
 
-## 📱 **On iPhone / iPad**
-
-- Apple doesn’t directly show GPU details.
-- Instead, you can:
-    1. Go to **Settings > General > About**.
-    2. Find the **model name** (like iPhone 15 Pro).
-    3. Search online for "iPhone 15 Pro GPU" — it will tell you:
-       ```
-       iPhone 15 Pro GPU: Apple A17 Pro GPU (6-core)
-       ```
+### On iPhone / iPad
+- Apple doesn’t directly show GPU info.
+- Find your **model name** in **Settings > General > About**, then:
+- Google "iPhone 15 Pro GPU" to find out:
+    ```
+    Apple A17 Pro GPU (6-core)
+    ```
 
 ---
 
-# 📊 **What to Do with Your GPU Name**
-
-Once you know your GPU, you can:
-- **Google it** to find out how fast it is.
-- Compare it to others (is it good for gaming, coding, AI?).
-- Check if your GPU supports **WebGPU** or other tech you might need.
-
----
-
-# 🔥 **Example GPUs You Might See**
+### 🔥 Example GPU Results
 
 | Device | Example GPU |
 |---|---|
@@ -181,6 +140,14 @@ Once you know your GPU, you can:
 
 ---
 
- 
+## 💬 Final Note
 
+Once you know your CPU and GPU, you can:
+- Check **performance benchmarks**.
+- See if your **hardware supports modern tech** like WebGPU, Vulkan, or CUDA.
+- Compare your hardware to others to see if it’s time for an **upgrade**.
+
+---
+
+Let me know if you want this in **Markdown format, a Google Doc, or a PDF!**
 
