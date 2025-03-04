@@ -1,6 +1,6 @@
 # Nolimts
 
-## Determin Availavle memeriry
+## Determin Available memorey
 
 ## GPU speed capabailities convention(standard speeds GHZs)?
 
