@@ -132,4 +132,103 @@ Absolutely! Here’s a **step-by-step guide** to help you upgrade your **AMD Ryz
 
 ---
 
-# 💬 Want me to help you pick a **new CPU cooler** or check your motherboard’s compatibility? Just tell me the motherboard model and I can guide you!
+Great question! 🔌 Since you're upgrading to a **Ryzen 9 7950X**, checking your **power supply (PSU)** is **critical**, especially in a **CyberPowerPC pre-built**. Pre-builts sometimes ship with **budget PSUs** that are fine for stock hardware but might struggle with high-end CPUs or future GPU upgrades.
+
+---
+
+# 🧰 **How to Check Your Power Supply (PSU)**
+
+### ✅ **Method 1 - Visual Inspection (Best Method)**
+
+To know **the exact wattage, brand, and quality of your PSU**, you’ll need to:
+
+1. **Turn off your PC and unplug it.**
+2. **Open the side panel** (usually glass or metal, held by thumbscrews).
+3. Look at the **power supply unit**, which is usually located at the bottom (in the PSU shroud area).
+4. Find the **sticker/label on the PSU**.
+    - It will show:  
+        - **Brand** (e.g., Thermaltake, Cooler Master, or generic CyberPowerPC label).  
+        - **Wattage** (e.g., 600W, 750W).  
+        - **80 PLUS Rating** (e.g., Bronze, Gold, Platinum — higher is better).
+
+---
+
+### ✅ **Method 2 - Check CyberPowerPC Website or Best Buy Order**
+
+- If you still have your **Best Buy order confirmation**, or you can check your **order history** online, it might list the PSU wattage (though usually not the brand).
+- CyberPowerPC’s website sometimes has specs for your **exact model**, but these are often generic ("600W PSU") without naming the brand or quality.
+
+---
+
+### ✅ **Method 3 - Check in Your Build Documentation (If You Got Any)**
+
+- Sometimes CyberPowerPC includes a **component list sheet** inside the box. If you saved this, it might list the **PSU wattage and brand**.
+
+---
+
+# 🔎 **What to Look For**
+
+### 1️⃣ **Wattage Needed for Ryzen 9 7950X + RTX 4070 Ti**
+
+| Component | Typical Wattage |
+|---|---|
+| **Ryzen 9 7950X** | ~170W (stock) |
+| **RTX 4070 Ti** | ~285W |
+| **Rest of System (fans, drives, etc.)** | ~75W |
+
+### Total Recommended PSU Wattage: **750W minimum (850W recommended for future upgrades)**
+
+---
+
+### 2️⃣ **80 PLUS Rating (Efficiency)**
+
+| Rating | Quality |
+|---|---|
+| ❌ **80 PLUS (no color)** | Low efficiency (avoid for high-end builds) |
+| ⚠️ **80 PLUS Bronze** | Entry-level, common in CyberPowerPC pre-builts |
+| ✅ **80 PLUS Gold** | Recommended for Ryzen 9 + 4070 Ti builds |
+| ✅ **80 PLUS Platinum or Titanium** | Ideal if you want best efficiency (less heat & lower electricity costs) |
+
+---
+
+### 3️⃣ **Brand Quality (Critical)**
+
+| Good Brands | Avoid |
+|---|---|
+| **Seasonic** | No-name "CyberPower" labeled units |
+| **Corsair (RMx, HX, AX)** | Generic unbranded PSUs |
+| **EVGA (G5, G7)** | Cheap off-brand imports |
+| **Thermaltake Toughpower GF3** | Older low-quality models |
+
+---
+
+# 🚨 **If You Find a Low-End PSU**
+
+If your CyberPowerPC came with a **generic 600W Bronze PSU**, upgrading to a **higher-quality 750W or 850W Gold PSU** is highly recommended before installing a **Ryzen 9 7950X**.
+
+---
+
+# 🔥 **Example PSU Recommendations for Ryzen 9 7950X + RTX 4070 Ti**
+
+| Model | Wattage | Efficiency |
+|---|---|---|
+| **Corsair RM850e (2023)** | 850W | Gold |
+| **Seasonic Focus GX-850** | 850W | Gold |
+| **EVGA SuperNOVA 850 G7** | 850W | Gold |
+| **Thermaltake Toughpower GF3 850W** | 850W | Gold |
+
+---
+
+# 🏁 **Summary Checklist**
+
+| Step | Action |
+|---|---|
+| ✅ **Open case & check PSU label** | Look for brand, wattage, 80 PLUS rating |
+| ✅ **Compare to requirements** | 750W+ and 80 PLUS Gold recommended |
+| ✅ **Check documentation** | CyberPowerPC paperwork (if available) |
+| ✅ **Upgrade if necessary** | Use a trusted brand PSU before adding a Ryzen 9 7950X |
+
+---
+
+# 💬 Want me to guide you through **swapping the PSU** if you decide to upgrade it?  
+Or help you find a PSU that fits **your exact CyberPowerPC case**? Let me know! 🔧
