@@ -1,4 +1,102 @@
-Yes! You can **optimize data transfer** between your **main PC and 12 PS4 Pro consoles** using a **router and individual LAN connections** to reduce **network bottlenecks**. Here's how:
+# **Requirements Document: Distributed WGPU Compute System Using 12 PS4 Pro Consoles**
+
+## **1. Overview**
+This document outlines the requirements for deploying **12 PS4 Pro consoles running Linux**, each operating a **headless WGPU instance** to process **32-byte binary vectors** via **XOR operations** against a **12-terabyte dataset**. The main PC will **distribute workloads**, receive results asynchronously, and aggregate computations.
+
+---
+
+## **2. System Architecture**
+### **2.1 Hardware Components**
+- **Main PC (Controller Node)**
+  - AMD Ryzen 9 7950X CPU
+  - NVIDIA RTX 4060 Ti GPU
+  - 10GbE network interface (for high-speed LAN connectivity)
+  - Storage: **12TB SSD/HDD for binary dataset**
+  - OS: **Linux (Arch-based or Ubuntu recommended)**
+  - Software: **Rust, WGPU, Tokio (async networking)**
+
+- **12x PS4 Pro Compute Nodes**
+  - **AMD Radeon Polaris GPU (4.2 TFLOPS)**
+  - **8GB GDDR5 (Shared)**
+  - **Custom Linux Distribution (Ubuntu/Arch-based)**
+  - **Headless WGPU Compute Instance**
+  - **1GbE LAN connectivity per PS4**
+  - **Connected via a 10GbE Switch to the Main PC**
+
+- **Networking**
+  - **10GbE switch** to connect the main PC with **1GbE dedicated links to each PS4**
+  - **Static IP assignment for faster routing**
+  - **UDP-based parallel data transfers for efficiency**
+
+---
+
+## **3. Software & Compute Workflow**
+### **3.1 WGPU Compute Workflow**
+1. **Main PC reads a chunk of the 12TB binary dataset**.
+2. **Splits the data into 32-byte vectors**.
+3. **Sends each 32-byte vector batch to a PS4 node**.
+4. **Each PS4 executes an XOR operation between sequential vectors**.
+5. **Processed results are sent back to the main PC asynchronously**.
+6. **Main PC aggregates the results and stores them back into storage**.
+
+### **3.2 Data Format**
+- **Input Format**:  
+  - Binary file split into **32-byte vectors**.
+  - Each vector is **XORed with the next vector**.
+
+- **Output Format**:
+  - Each PS4 sends back **processed 32-byte blocks** in **binary format**.
+  - Data is reassembled on the **main PC**.
+
+---
+
+## **4. Technical Requirements**
+### **4.1 Compute Shader Implementation**
+- **WGPU Compute Shader (WGSL)**
+  - Reads **32-byte vector input** from buffer.
+  - **Performs XOR operation** between each vector and the next.
+  - Writes **output back to the buffer**.
+
+- **Memory Alignment Considerations**
+  - Ensure **vectors are aligned to 32-byte boundaries**.
+  - Optimize **memory reads/writes for AMD Polaris architecture**.
+
+### **4.2 Networking Protocol**
+- **Transport:** UDP (for lower latency)
+- **Serialization:** MessagePack or Protobuf (to reduce payload size)
+- **Batch Size:** 128-256 vectors per request (to optimize network efficiency)
+
+### **4.3 Parallelization & Async Execution**
+- **Main PC** runs a **Rust async service** using `tokio::spawn` to manage:
+  - **Sending compute tasks in parallel**
+  - **Listening for results asynchronously**
+- **PS4 Compute Nodes** process tasks using a **Rust-based TCP/UDP server**.
+
+---
+
+## **5. Performance Considerations**
+| **Metric** | **Expected Performance** |
+|------------|--------------------------|
+| **Network Bandwidth per PS4** | 1Gbps (theoretical max: 125MB/s) |
+| **XOR Processing Speed (PS4 Pro GPU)** | ~4.2 TFLOPS (single precision) |
+| **Total Compute Power (12 PS4s)** | ~50.4 TFLOPS |
+| **Estimated Processing Time (12TB dataset)** | Dependent on async batch execution and network latency |
+
+---
+
+## **6. Fault Tolerance & Error Handling**
+- **Timeout Handling**: If a PS4 node is **unresponsive**, reassign work to another node.
+- **Checksum Validation**: Each processed batch should include a **hash to verify correctness**.
+- **Node Monitoring**: Main PC logs **which nodes are active/inactive**.
+
+---
+
+## **7. Next Steps**
+- **Prototype WGPU compute shader for XOR operations**.
+- **Implement Rust-based async networking server for sending/receiving vectors**.
+- **Test network bandwidth with PS4 Pro Linux nodes**.
+
+Would you like a **Rust example** for the networking or compute shader part? 🚀
 
 ---
 
