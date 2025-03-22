@@ -86,4 +86,123 @@ struct Vec4 {
 
 ---
 
-Let me know if you want a Rust macro or derive helper that automatically maps structs to valid WGSL layout!
+Absolutely — here's a **complete cheat sheet** that maps **WGSL data types** to their **Rust equivalents**, with examples of how to declare them in Rust (using `#[repr(C)]`, proper alignment, padding, etc.).
+
+---
+
+## 🧱 Scalars
+
+| WGSL         | Rust                                | Example                      |
+|--------------|--------------------------------------|------------------------------|
+| `f32`        | `f32`                                | `pub scale: f32,`            |
+| `i32`        | `i32`                                | `pub index: i32,`            |
+| `u32`        | `u32`                                | `pub count: u32,`            |
+| `bool`       | `u32` ⚠ (4-byte aligned)             | `pub enabled: u32,`          |
+
+---
+
+## 🧱 Vectors
+
+| WGSL          | Rust                                | Example                                              |
+|---------------|--------------------------------------|------------------------------------------------------|
+| `vec2<f32>`   | `[f32; 2]` or `glam::Vec2`           | `pub pos: [f32; 2],`                                 |
+| `vec3<f32>`   | `[f32; 3]` + padding                 | `pub color: [f32; 3], pub _pad0: f32,`               |
+| `vec4<f32>`   | `[f32; 4]` or `glam::Vec4`           | `pub dir: [f32; 4],`                                 |
+
+---
+
+## 🧱 Matrices
+
+| WGSL           | Rust                                 | Example                                               |
+|----------------|---------------------------------------|-------------------------------------------------------|
+| `mat2x2<f32>`  | `[[f32; 2]; 2]`                       | `pub mat2: [[f32; 2]; 2],`                            |
+| `mat3x3<f32>`  | `[[f32; 3]; 3]` + padding             | `pub mat3: [[f32; 3]; 3], pub _pad1: [f32; 3],`       |
+| `mat4x4<f32>`  | `[[f32; 4]; 4]`                       | `pub mat4: [[f32; 4]; 4],`                            |
+
+> ⚠ Matrices are **column-major**, and each column must be 16-byte aligned (i.e., treated like `vec4`)
+
+---
+
+## 🧱 Arrays
+
+| WGSL               | Rust                                 | Example                         |
+|--------------------|--------------------------------------|---------------------------------|
+| `array<u32, 4>`    | `[u32; 4]`                            | `pub values: [u32; 4],`         |
+| `array<vec4<f32>>` | `[[f32; 4]; N]`                       | `pub vectors: [[f32; 4]; 8],`   |
+
+> Dynamic arrays (`array<u32>`) are **only valid in storage buffers**, and require special handling on host side.
+
+---
+
+## 🧱 Structs
+
+### WGSL
+```wgsl
+struct MyUniforms {
+    time: f32,
+    pos: vec3<f32>,
+    transform: mat4x4<f32>,
+};
+```
+
+### Rust
+```rust
+#[repr(C)]
+#[derive(Copy, Clone, Debug, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct MyUniforms {
+    pub time: f32,
+    pub _pad0: [f32; 3], // pad vec3 alignment
+    pub pos: [f32; 3],
+    pub _pad1: f32,
+    pub transform: [[f32; 4]; 4],
+}
+```
+
+---
+
+## 🧱 Samplers and Textures (not representable in Rust)
+
+| WGSL                          | Rust Equivalent        | Notes                          |
+|-------------------------------|------------------------|--------------------------------|
+| `texture_2d<f32>`             | ❌                     | Bind in `wgpu::BindGroup`, not Rust |
+| `sampler`                     | ❌                     | Not memory-mapped              |
+| `texture_storage_2d<...>`     | ❌                     | Only used in `wgpu` bindings   |
+
+Instead, you bind these using `wgpu::BindGroupEntry`.
+
+---
+
+## ✅ Safe Rust Layout Tips
+
+### Always use:
+- `#[repr(C)]` — ensures C-compatible layout
+- `#[derive(bytemuck::Pod, Zeroable)]` — for safe casting to bytes
+- Explicit padding for `vec3` or `mat3x3`
+- Arrays for vector/matrix types (`[f32; 4]`, `[[f32; 4]; 4]`)
+
+---
+
+### 💡 Example: Rust Uniform Buffer Layout
+
+```rust
+#[repr(C)]
+#[derive(Copy, Clone, Debug, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct CameraUniform {
+    pub view_proj: [[f32; 4]; 4],
+    pub eye_pos: [f32; 3],
+    pub _pad: f32, // pad to 16 bytes
+}
+```
+
+Matches:
+
+```wgsl
+struct CameraUniform {
+    view_proj: mat4x4<f32>,
+    eye_pos: vec3<f32>,
+};
+```
+
+---
+
+ 
