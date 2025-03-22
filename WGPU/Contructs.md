@@ -19,19 +19,66 @@ enable f16;
 These have `@group(N) @binding(M)` attributes plus a qualifying storage class or resource type:
 
 ```wgsl
-// Storage buffer (read)
+// ─────────────────────────────────────
+// Storage Buffers (All access modes)
+// ─────────────────────────────────────
+
 @group(0) @binding(0)
-var<storage, read> storage_buffer: array<u32>;
+var<storage, read> storage_read: array<u32>;
 
-// Uniform buffer
 @group(0) @binding(1)
-var<uniform> my_uniforms: SomeStruct;
+var<storage, read_write> storage_read_write: array<f32>;
 
-// Texture / Sampler
 @group(0) @binding(2)
-var my_texture: texture_2d<f32>;
+var<storage, write> storage_write: array<vec4<f32>>;
+
+// ─────────────────────────────────────
+// Uniform Buffer
+// ─────────────────────────────────────
+
+struct SomeUniforms {
+    a: f32,
+    b: vec4<u32>,
+};
+
 @group(0) @binding(3)
+var<uniform> my_uniforms: SomeUniforms;
+
+// ─────────────────────────────────────
+// Sampled Texture and Sampler
+// ─────────────────────────────────────
+
+@group(0) @binding(4)
+var my_texture_2d: texture_2d<f32>;
+
+@group(0) @binding(5)
+var my_texture_cube: texture_cube<f32>;
+
+@group(0) @binding(6)
 var my_sampler: sampler;
+
+@group(0) @binding(7)
+var my_comparison_sampler: sampler_comparison;
+
+// ─────────────────────────────────────
+// Storage Texture
+// ─────────────────────────────────────
+
+@group(0) @binding(8)
+var my_storage_texture: texture_storage_2d<rgba8unorm, write>;
+
+// ─────────────────────────────────────
+// Optional: Push Constants (non-binding)
+// ─────────────────────────────────────
+
+struct PushConstants {
+    scale: f32,
+    offset: vec2<f32>,
+};
+
+@push_constant
+var<uniform> pc: PushConstants;
+
 ```
 
 - These correspond to external GPU resources that you bind at runtime via a bind group.
