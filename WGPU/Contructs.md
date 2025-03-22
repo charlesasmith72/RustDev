@@ -19,7 +19,7 @@ enable f16;
 These have `@group(N) @binding(M)` attributes plus a qualifying storage class or resource type:
 
 ```wgsl
-        // ─────────────────────────────────────
+// ─────────────────────────────────────
 // Storage Buffers (All access modes)
 // ─────────────────────────────────────
 
