@@ -19,7 +19,7 @@ enable f16;
 These have `@group(N) @binding(M)` attributes plus a qualifying storage class or resource type:
 
 ```wgsl
-// ─────────────────────────────────────
+        // ─────────────────────────────────────
 // Storage Buffers (All access modes)
 // ─────────────────────────────────────
 
@@ -30,7 +30,8 @@ var<storage, read> storage_read: array<u32>;
 var<storage, read_write> storage_read_write: array<f32>;
 
 @group(0) @binding(2)
-var<storage, write> storage_write: array<vec4<f32>>;
+var<storage, read_write> storage_write: array<vec4<f32>>;
+
 
 // ─────────────────────────────────────
 // Uniform Buffer
@@ -67,17 +68,7 @@ var my_comparison_sampler: sampler_comparison;
 @group(0) @binding(8)
 var my_storage_texture: texture_storage_2d<rgba8unorm, write>;
 
-// ─────────────────────────────────────
-// Optional: Push Constants (non-binding)
-// ─────────────────────────────────────
 
-struct PushConstants {
-    scale: f32,
-    offset: vec2<f32>,
-};
-
-@push_constant
-var<uniform> pc: PushConstants;
 
 ```
 
