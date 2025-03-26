@@ -74,4 +74,57 @@ var<uniform> myData: SomeType;
 
 ---
 
-Would you like this formatted into a downloadable table or cheat sheet?
+Great question! The list I gave you includes **all official WGSL attributes as of the WebGPU 1.0 specification (April 2023)** — which is the most stable and widely supported version.
+
+Here's a double-check **complete list** to confirm we didn’t miss any:
+
+---
+
+### ✅ **WGSL Attributes (Complete List)**
+
+#### 🔷 Shader Stage Entry Point
+- `@vertex`
+- `@fragment`
+- `@compute`
+- `@workgroup_size(x[, y[, z]])`
+
+#### 🔶 Resource Binding
+- `@group(n)`
+- `@binding(n)`
+
+#### 🟢 Input/Output (Function Parameters or Returns)
+- `@location(n)`
+- `@builtin("name")` (e.g., `"position"`, `"frag_depth"`, `"vertex_index"`, etc.)
+- `@interpolate("type", ["sampling"])`
+- `@invariant`
+
+#### 🟣 Struct and Field Layout
+- `@block` (for uniform/storage buffer structs)
+- `@align(n)`
+- `@size(n)`
+- `@offset(n)` (for fields in `@block` structs)
+- `@stride(n)` (for arrays in buffers)
+
+#### 🟡 Constants and Diagnostics
+- `@id(n)` (for `override` constants)
+- `@diagnostic(level, rule)` (to suppress/enable compiler warnings/errors)
+
+---
+
+### ⚠️ Not WGSL Attributes (but often confused)
+Just to clarify — the following **are not WGSL attributes**, even though they look similar or are used with types:
+- `var<uniform>`, `var<storage, read_write>` → **storage class + access mode**
+- `override` → **keyword**, not an attribute
+- `fn` → **function declaration**
+- `struct` → type definition, not an attribute
+
+---
+
+### ✅ So Yes — This is the Full List
+
+Unless you're using an experimental WGSL extension or a forked toolchain, the list above **covers every valid attribute** in standard WGSL 1.0.
+
+Let me know if you want:
+- An organized visual cheatsheet
+- A JSON/YAML list for codegen or docs
+- Version-specific deltas (e.g. what changed since 2022 drafts)
