@@ -1,101 +1,130 @@
-Here’s your updated **Aiken installation tutorial** tailored for your **2025 WSL Ubuntu environment** using the official `cargo` method.
+Here’s your updated **Aiken Setup Tutorial for 2025 using WSL Ubuntu**, with your actual project and error feedback included:
 
 ---
 
-# 🔧 Aiken Installation Tutorial (WSL Ubuntu 2025 + Cargo)
+# 🧠 Aiken Setup on WSL (2025 Updated Tutorial)
 
-Aiken is a lightweight smart contract language for Cardano, built for performance and developer productivity. This tutorial shows how to install Aiken from source using Cargo in your current WSL environment.
+This guide helps you install [Aiken](https://aiken-lang.org) on **WSL2 Ubuntu**, configure your Cardano development environment, and create your first smart contract project inside your **preprod testnet**.
 
 ---
 
 ## ✅ Prerequisites
 
-Before installing Aiken, make sure you have the following installed in your WSL Ubuntu terminal:
+Make sure you have:
 
-### 1. **Rust (via rustup)**
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+- A working WSL2 Ubuntu environment
+- `cardano-node` and `cardano-cli` installed and synced (preprod)
+- `cargo` (Rust) installed
+- `curl` and `git` installed
+- `libssl-dev`, `pkg-config`, `build-essential`, and other dev tools installed
 
-Then restart your shell or run:
-```bash
-source $HOME/.cargo/env
-```
+---
 
-### 2. **Update PATH**
-Ensure Cargo's bin directory is on your PATH:
+## 1. 🧱 Install Build Tools (one-time)
+Run the following in WSL:
+
 ```bash
-echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+sudo apt update
+sudo apt install curl git build-essential pkg-config libssl-dev libclang-dev -y
 ```
 
 ---
 
-## 🚀 Install Aiken using Cargo
+## 2. 🦀 Install Rust (with `cargo`)
+If you don’t already have Rust installed:
 
-Run this command to install Aiken from crates.io:
+```bash
+curl https://sh.rustup.rs -sSf | sh
+```
+
+Close and reopen your WSL terminal, or run:
+
+```bash
+source $HOME/.cargo/env
+```
+
+Test:
+
+```bash
+cargo --version
+```
+
+---
+
+## 3. 🔧 Install Aiken (via Cargo)
 
 ```bash
 cargo install aiken
 ```
 
-This will:
-- Download the Aiken crate
-- Compile it in your environment
-- Install the `aiken` binary to `~/.cargo/bin`
-
----
-
-## 🧪 Verify the Installation
-
-Check the version to confirm it worked:
-```bash
-aiken --version
-```
+> If you see an error like `linker 'cc' not found`, make sure you installed `build-essential` as shown in step 1.
 
 You should see something like:
-```
-aiken 1.x.x
+
+```bash
+aiken --version
+# aiken v1.1.15+unknown
 ```
 
 ---
 
-## 🗂️ Create a New Aiken Project
+## 4. 📁 Create Your First Smart Contract Project
 
-Navigate to your working Cardano directory:
+Navigate to your Cardano dev directory:
+
 ```bash
 cd ~/cardano/preprod
 ```
 
-Create a new Aiken project:
+Then run this **correctly formatted** command (based on Aiken’s naming rules):
+
+```bash
+aiken new charl/my_first_contract
+```
+
+> ✅ **Naming Rule Tip**: Aiken requires projects to be named in the format:  
+> `{owner}/{project}`  
+> All lowercase, and only letters, numbers, hyphens or underscores.
+
+⚠️ If you run something like this:
+
 ```bash
 aiken new my-first-contract
-cd my-first-contract
 ```
 
-This creates:
-- `aiken.toml`: project config
-- `contracts/`: where you write smart contracts
-- `test/`: for unit testing
+You’ll see this error:
+
+```
+Error: ✗ my-first-contract is not a valid project name: It is malformed.
+Projects must be named as:
+    {owner}/{project}
+```
 
 ---
 
-## 🧠 Compile Your Smart Contract
+## 5. 🚀 Explore Your Project
 
-Inside the Aiken project folder:
 ```bash
-aiken build
+cd my_first_contract
 ```
 
-This compiles your `.ak` files into Plutus scripts.
+Your new Aiken project includes:
+
+- `aiken.toml`: project metadata
+- `plutus/`: directory for your `.ak` smart contract files
+- `test/`: folder for inline tests
 
 ---
 
-## ✅ Next Steps
+## ✅ You’re Ready to Build!
 
-You can now:
-- Write and test Plutus smart contracts using Aiken
-- Integrate them with Lucid or `cardano-cli`
-- Deploy them on your preprod chain running in WSL
+From here, you can:
 
-Would you like a walkthrough for building and deploying your first Aiken contract?
+- Write Plutus V2 contracts in Aiken
+- Compile to `.plutus` and `.plutus.json`
+- Integrate with off-chain tooling or Aiken CLI
+- Deploy to your running local testnet
+
+---
+
+Let me know if you want me to walk you through writing your first contract or testing on-chain behavior.
