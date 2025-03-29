@@ -125,6 +125,93 @@ From here, you can:
 - Integrate with off-chain tooling or Aiken CLI
 - Deploy to your running local testnet
 
+## Start up:
+Yes, you’ve got the right idea! Here's your full step-by-step guide to start working on your **first smart contract** in your current **pre-production Cardano + WSL + Aiken** environment:
+
 ---
 
-Let me know if you want me to walk you through writing your first contract or testing on-chain behavior.
+## 🧠 TL;DR – The Workflow
+
+1. ✅ Start **WSL**
+2. ✅ Open the **project folder** in VS Code
+3. ✅ Start the **Cardano node**
+4. ✅ Compile your **Aiken smart contract**
+5. ✅ Interact with the blockchain using `cardano-cli`
+
+---
+
+## 🪟 1. Start WSL
+
+Open your terminal and enter WSL (Ubuntu):
+
+```bash
+wsl
+```
+
+> You should land in your Linux shell (e.g., `charl@STXRLABML1:~`)
+
+---
+
+## 🧭 2. Navigate to Your Project and Open VS Code
+
+```bash
+cd ~/cardano/preprod
+code .
+```
+
+This opens the pre-production testnet folder in **VS Code** (inside WSL). You’ll edit your Aiken smart contract here.
+
+---
+
+## 🌀 3. Start the Cardano Node
+
+Make sure you're in the same `~/cardano/preprod` directory and run:
+
+```bash
+cardano-node run \
+  --config ./config.json \
+  --topology ./topology.json \
+  --database-path ./db \
+  --socket-path ./db/node.socket \
+  --host-addr 0.0.0.0 \
+  --port 3001
+```
+
+> ✅ You’ll need this running **before** querying the blockchain or submitting transactions.
+
+---
+
+## 📄 4. Write Your Smart Contract
+
+Navigate to your Aiken project:
+
+```bash
+cd ~/cardano/preprod/my_first_contract
+```
+
+Edit the `src/main.ak` file or create a new `.ak` module in VS Code.
+
+---
+
+## 🧪 5. Compile the Smart Contract
+
+Once you’ve written the `.ak` file:
+
+```bash
+aiken check
+aiken build
+```
+
+This compiles your contract to **Plutus Core** and outputs `.plutus` files inside the `plutus.json` directory.
+
+---
+
+## 🧰 6. Use `cardano-cli` to Deploy or Interact
+
+You now have access to the full CLI toolset. From here, you can:
+
+- 🔎 Query blockchain state (`cardano-cli query ...`)
+- 🪙 Create transactions that **spend UTXOs** with your smart contract
+- 📦 Submit transactions to your running node
+
+ 
