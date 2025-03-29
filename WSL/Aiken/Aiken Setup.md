@@ -1,124 +1,101 @@
-Great! Here’s a step-by-step tutorial to set up **Aiken** in your **pre-production Cardano blockchain environment on WSL**.
+Here’s your updated **Aiken installation tutorial** tailored for your **2025 WSL Ubuntu environment** using the official `cargo` method.
 
 ---
 
-## ✅ Aiken Setup in WSL for Smart Contract Development
+# 🔧 Aiken Installation Tutorial (WSL Ubuntu 2025 + Cargo)
 
-### 📦 Prerequisites
-Ensure you’ve already:
-- Installed `cardano-node` and `cardano-cli`
-- Set up the pre-production chain (as you did in `~/cardano/preprod`)
-- Installed `git` and `curl`
-- Installed `rust` and `cargo` (recommended for better WASM tooling)
+Aiken is a lightweight smart contract language for Cardano, built for performance and developer productivity. This tutorial shows how to install Aiken from source using Cargo in your current WSL environment.
 
 ---
 
-### 1. 🚀 Install Aiken
+## ✅ Prerequisites
 
+Before installing Aiken, make sure you have the following installed in your WSL Ubuntu terminal:
+
+### 1. **Rust (via rustup)**
 ```bash
-curl -sSf https://raw.githubusercontent.com/aiken-lang/aiken/main/install.sh | bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-This will:
-- Download the latest release
-- Install it under `~/.aiken/bin`
-- Add it to your `PATH`
-
-#### Add to PATH (permanently):
-If it’s not already available in your shell:
-
+Then restart your shell or run:
 ```bash
-echo 'export PATH="$HOME/.aiken/bin:$PATH"' >> ~/.bashrc
+source $HOME/.cargo/env
+```
+
+### 2. **Update PATH**
+Ensure Cargo's bin directory is on your PATH:
+```bash
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 ---
 
-### 2. 🛠️ Create an Aiken Project
+## 🚀 Install Aiken using Cargo
 
-Navigate to where you want to build smart contracts:
+Run this command to install Aiken from crates.io:
 
 ```bash
-cd ~/cardano/preprod
-aiken new my_contracts
-cd my_contracts
+cargo install aiken
 ```
 
-This scaffolds:
-- `aiken.toml`: your config
-- `contracts/`: for Plutus scripts
-- `tests/`: for writing unit tests
+This will:
+- Download the Aiken crate
+- Compile it in your environment
+- Install the `aiken` binary to `~/.cargo/bin`
 
 ---
 
-### 3. ✍️ Write a Sample Contract
+## 🧪 Verify the Installation
 
-Edit `contracts/hello_world.ak`:
-```aiken
-contract HelloWorld {
-  pub fn say_hello(name: String) -> String {
-    "Hello, ".append(name)
-  }
-}
+Check the version to confirm it worked:
+```bash
+aiken --version
 ```
 
-Compile:
+You should see something like:
+```
+aiken 1.x.x
+```
+
+---
+
+## 🗂️ Create a New Aiken Project
+
+Navigate to your working Cardano directory:
+```bash
+cd ~/cardano/preprod
+```
+
+Create a new Aiken project:
+```bash
+aiken new my-first-contract
+cd my-first-contract
+```
+
+This creates:
+- `aiken.toml`: project config
+- `contracts/`: where you write smart contracts
+- `test/`: for unit testing
+
+---
+
+## 🧠 Compile Your Smart Contract
+
+Inside the Aiken project folder:
 ```bash
 aiken build
 ```
 
----
-
-### 4. 🧪 Test the Contract
-
-Inside `tests/hello_test.ak`:
-```aiken
-use HelloWorld
-
-test "say hello returns expected greeting" {
-  assert HelloWorld.say_hello("Alice") == "Hello, Alice"
-}
-```
-
-Run tests:
-```bash
-aiken test
-```
+This compiles your `.ak` files into Plutus scripts.
 
 ---
 
-### 5. 🔐 Compile to Plutus Script
+## ✅ Next Steps
 
-```bash
-aiken build --output-format plutus
-```
+You can now:
+- Write and test Plutus smart contracts using Aiken
+- Integrate them with Lucid or `cardano-cli`
+- Deploy them on your preprod chain running in WSL
 
-It will generate `.plutus.json` files you can use with `cardano-cli` for deploying.
-
----
-
-### 6. ⚙️ Deploy with cardano-cli
-
-Use standard UTXO-based transaction building:
-```bash
-cardano-cli transaction build \
-  --tx-in <UTXO_IN> \
-  --tx-out <ADDRESS>+<LOVELACE>+"1 <POLICY_ID>.<TOKEN_NAME>" \
-  --change-address <ADDRESS> \
-  --testnet-magic 1 \
-  --out-file tx.raw \
-  --protocol-params-file protocol.json
-```
-
-You’ll include the compiled `.plutus.json` script in a similar way.
-
----
-
-### 🧭 Next Steps
-- Use Aiken to build validator scripts for NFTs or tokens
-- Combine it with native minting policy scripts
-- Create automation to deploy contracts and mint tokens
-
----
-
-Let me know if you'd like to scaffold a real NFT minting contract or deploy one live on your local testnet!
+Would you like a walkthrough for building and deploying your first Aiken contract?
