@@ -1,87 +1,55 @@
-Absolutely — here’s a clean and direct set of **startup instructions from WSL** all the way to **viewing the Cardano testnet blockchain state** from your terminal.
+Great! Now that you've successfully opened your Cardano preprod directory in VS Code using `code ~/cardano/preprod`, here’s the updated step-by-step tutorial based on your current setup:
 
 ---
 
-## ✅ Step-by-Step: Start Cardano Node from WSL
+### ✅ Updated Tutorial: Open and Work with Cardano Preprod Testnet in VS Code via WSL
 
-### 1. **Open WSL Terminal**
-If you're using VS Code, open a terminal inside your Ubuntu WSL environment.
-
----
-
-### 2. **Navigate to Your Node Config Directory**
-```bash
-cd ~/cardano-preview
+#### **1. Open Terminal and Launch WSL**
+If you're starting from Windows:
+```sh
+wsl
 ```
 
-> This should contain `config.json`, `topology.json`, the `db/` folder, and all the genesis files.
+#### **2. Navigate to Your Preprod Directory**
+```sh
+cd ~/cardano/preprod
+```
+
+#### **3. Open the Project in VS Code**
+From inside the `~/cardano/preprod` folder:
+```sh
+code .
+```
+
+This opens VS Code with the WSL extension inside the correct folder.
 
 ---
 
-### 3. **Start the Node**
-```bash
+### 📂 Inside VS Code (WSL Session)
+
+#### You should now see:
+- Folder tree on the left (`db`, `topology.json`, `config.json`, etc.)
+- Any `.md` or `.json` files editable directly
+- No need to use the green status bar—you're already in WSL mode because you used `code .` from WSL
+
+---
+
+### 🔄 Next Steps You Can Do Inside VS Code
+- Edit `topology.json`, `config.json`, or other files easily
+- Open a new terminal in VS Code (automatically WSL-based) with:
+  - `Ctrl + \` (split terminal)
+  - Or `Terminal` → `New Terminal`
+- Run your node:
+```sh
 cardano-node run \
   --config ./config.json \
   --topology ./topology.json \
   --database-path ./db \
   --socket-path ./db/node.socket \
-  --host-addr 127.0.0.1 \
+  --host-addr 0.0.0.0 \
   --port 3001
 ```
 
-Leave this running in a terminal tab.
-
 ---
 
-## 🧪 View the Blockchain State (from another WSL terminal tab)
-
-Open a **new terminal tab** so you don’t interrupt the node.
-
----
-
-### 4. **Check Your Node’s Sync Status**
-```bash
-cardano-cli query tip --testnet-magic 2 --socket-path ~/cardano-preview/db/node.socket
-```
-
-You should see output like:
-```json
-{
-  "epoch": 328,
-  "hash": "abc123...",
-  "slot": 12345678,
-  "block": 987654,
-  "era": "Babbage",
-  "syncProgress": "72.34"
-}
-```
-
-> When `"syncProgress"` reaches `"100.00"`, your node is fully synced.
-
----
-
-### 5. **Explore Blockchain Data**
-You can run commands like:
-
-- **Query current protocol parameters:**
-```bash
-cardano-cli query protocol-parameters \
-  --testnet-magic 2 \
-  --out-file protocol.json \
-  --socket-path ~/cardano-preview/db/node.socket
-```
-
-- **View your local UTXOs (after creating an address):**
-```bash
-cardano-cli query utxo \
-  --address $(cat payment.addr) \
-  --testnet-magic 2 \
-  --socket-path ~/cardano-preview/db/node.socket
-```
-
----
-
-Would you like to walk through:
-- Creating a wallet and requesting test ADA?
-- Minting a token or contract preview?
-Let me know — we can go step-by-step.
+If you want me to add this to a Markdown doc like `Setup.md` or create a new file, just let me know.
