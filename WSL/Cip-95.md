@@ -1,4 +1,4 @@
-# WASM-Based CIP-49 Cardano Wallet App — Requirements & Analysis
+# WASM-Based CIP-95(🚫not 49) Cardano Wallet App — Requirements & Analysis
 
 ## Overview
 
