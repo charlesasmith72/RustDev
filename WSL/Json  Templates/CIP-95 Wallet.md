@@ -72,10 +72,114 @@ This template isn’t a blockchain standard, but a **design blueprint** for your
 4. Optionally expose this manifest to dApps via `api.getCapabilities()` (your custom extension)
 
 ---
+Your wallet JSON is already very comprehensive and well-structured for a CIP-95-compliant wallet.
 
-Would you like:
-- A matching Rust struct for this manifest?
-- A `getCapabilities()` function that returns this JSON to dApps?
-- Help turning this into a `window.cardano.mywasmwallet` injection stub?
+However, depending on how advanced, dev-friendly, or interoperable you want your wallet to be, you **could optionally include** the following additional attributes:
 
-Let me know how you'd like to integrate this into your WASM app!
+---
+
+## ✅ **Optional Attributes You Could Add**
+
+### 🔹 `ui_capabilities`
+Defines what UI your wallet supports or exposes.
+
+```json
+"ui_capabilities": {
+  "supports_drep_registration": true,
+  "supports_vote_delegation": true,
+  "supports_governance_proposals": true,
+  "supports_token_minting": true,
+  "supports_nft_creation": true
+}
+```
+
+---
+
+### 🔹 `security_features`
+Outlines additional security measures implemented in the wallet.
+
+```json
+"security_features": {
+  "biometrics": false,
+  "password_protection": true,
+  "hardware_wallet_support": false,
+  "session_timeout_minutes": 15
+}
+```
+
+---
+
+### 🔹 `version_info`
+Versioning for your wallet implementation.
+
+```json
+"version_info": {
+  "api_version": "1.0.0",
+  "build": "2025.03.31-alpha",
+  "rust_target": "wasm32-unknown-unknown"
+}
+```
+
+---
+
+### 🔹 `developer_info`
+Used to expose wallet metadata to external dApps/devs.
+
+```json
+"developer_info": {
+  "repository": "https://github.com/mywasmwallet",
+  "documentation": "https://docs.mywasmwallet.dev",
+  "contact": "dev@mywasmwallet.dev"
+}
+```
+
+---
+
+### 🔹 `identity_features` (if relevant)
+If you plan to include CIP-95-related identity extensions or DAO support.
+
+```json
+"identity_features": {
+  "supports_multistake_delegation": true,
+  "supports_dao_governance": false
+}
+```
+
+---
+
+### 🔹 `cip_extensions` (optional for multi-CIP support)
+To signal that the wallet also supports additional extensions cleanly.
+
+```json
+"cip_extensions": {
+  "cip-30": true,
+  "cip-45": false,
+  "cip-49": true,
+  "cip-95": true
+}
+```
+
+---
+
+### 🔹 `testing`
+Useful for testnet wallets/dev tools.
+
+```json
+"testing": {
+  "mock_mode": true,
+  "generate_dummy_utxos": true,
+  "inject_test_dreps": false
+}
+```
+
+---
+
+## ✅ Summary
+
+Your existing JSON is perfect as a **baseline wallet manifest**. The attributes above are optional and can:
+
+- Help dApps adapt to your capabilities
+- Improve UX control on your side
+- Make your dev tools more robust
+
+Let me know if you’d like a canonical JSON Schema or a Rust struct for this full manifest — I can generate either!
