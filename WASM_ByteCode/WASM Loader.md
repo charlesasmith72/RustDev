@@ -1,130 +1,96 @@
- 
-## Recommended Structure for a WASM Loader with main.rs
+Perfect — using `lib.rs` is the *best practice* for WASM projects that are meant to be imported or controlled externally (like your splash loader).
+
+---
+
+## Correct Structure for WASM Splash Loader Crate using lib.rs
 
 ```
 src/
-└── main.rs
+├── lib.rs
+```
+
+Your `Cargo.toml` should have:
+```toml
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
 ```
 
 ---
 
-## 1. Write + Test Rust Logic First (native-friendly)
+## lib.rs Example
 
 ```rust
-fn loader_logic() {
-    // Any pre-app logic here
-    for i in 0..1000 {
-        // simulate work / delay / hash / check
-    }
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
 }
 
-#[cfg(target_arch = "wasm32")]
-#[no_mangle]
-pub extern "C" fn main() {
-    loader_logic();
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-fn main() {
-    println!("Running loader natively...");
-    loader_logic();
+// Exported function to be called from JS
+#[wasm_bindgen]
+pub fn run_loader() {
+    log("WASM splash loader triggered from Rust!");
 }
 ```
 
 ---
 
-## Why is this clean?
-
-| Target | Behavior |
-|--------|----------|
-|Native Rust run | `cargo run` works like normal for fast test/dev |
-|WASM build | Exports `main()` for WASM runtime entry |
-|Portable | No JS dependencies unless you want |
-
----
-
-## 2. Test Natively
-
-```bash
-cargo run
-cargo test
-```
-
-→ Fast dev loop, easy println debug.
-
----
-
-## 3. Compile to WASM
-
+## Build for WASM
 ```bash
 cargo build --release --target wasm32-unknown-unknown
 ```
 
-Output:
-```
-target/wasm32-unknown-unknown/release/your_crate_name.wasm
-```
-
----
-
-## 4. Optimize Bytecode
-
+Optional: wasm-bindgen to generate JS glue:
 ```bash
-wasm-opt -Oz -o loader-opt.wasm target/wasm32-unknown-unknown/release/your_crate_name.wasm
+wasm-bindgen target/wasm32-unknown-unknown/release/your_crate_name.wasm --out-dir pkg --target web
 ```
 
 ---
 
-## 5. Convert to Inline Binary Chunk
-
-```bash
-xxd -p loader-opt.wasm | tr -d '\n' | sed 's/\(..\)/\\x\1/g'
-```
-
-Paste into:
-
+## JS Usage:
 ```html
-<template id="wasm-bytes">
-\x00\x61\x73\x6D\x01\x00...
-</template>
-```
+<script type="module">
+import init, { run_loader } from './pkg/your_crate_name.js';
 
----
+await init();
+run_loader();
 
-## Final JS to Run Inline WASM from Binary Chunk
-
-```html
-<script>
-(async () => {
-  const raw = document.getElementById('wasm-bytes').innerHTML.trim();
-  const bytes = new Uint8Array(raw.match(/\\x([0-9A-Fa-f]{2})/g).map(x => parseInt(x.slice(2), 16)));
-
-  const { instance } = await WebAssembly.instantiate(bytes, {});
-  instance.exports.main?.();
-
-  const brand = document.getElementById('brand');
-  brand.classList.remove('focus-in-contract-bck');
-  brand.classList.add('text-blur-out');
-})();
+document.getElementById('brand').classList.remove('focus-in-contract-bck');
+document.getElementById('brand').classList.add('text-blur-out');
 </script>
 ```
 
 ---
 
-## Outcome:
-| Stage | Result |
-|-------|--------|
-|cargo run | Native test & print |
-|cargo build | True WASM bytecode |
-|Inline | No extra files |
-|JS | Only tiny glue for splash control |
+## Why lib.rs is better here:
+| Benefit | Why |
+|---------|-----|
+|Cleaner WASM API | Export exactly what you want |
+|Re-usable | Any function, any number of exports |
+|No Rust `main()` conflicts | Pure WASM library |
+|Perfect for Inline or Modular | Flexible |
+
+---
+
+## Ready for Inline WASM too
+Once your `lib.rs` is stable:
+1. Build
+2. Optimize `.wasm`
+3. Convert to `\x` binary chunk
+4. Inline directly in `<template>` or `<script>`
 
 ---
 
 Want me to:
-- Generate ready-to-copy full main.rs loader?
-- Auto-script the build → optimize → convert → inline step?
-- Generate Rspeedy or Makefile pipeline for this?
+- Generate full lib.rs splash loader ready-to-inline?
+- Auto-generate build + inline pipeline (Makefile or build.rs)?
+- Generate JS loader to auto-fetch inline WASM chunks?
+- Show Rspeedy config for WASM library projects?
 
 Say:
-> *"Generate main.rs loader & inline pipeline full setup"*
+> *"Generate full lib.rs splash loader ready for inline"*
