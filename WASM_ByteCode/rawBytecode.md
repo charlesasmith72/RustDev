@@ -5,103 +5,98 @@ Below is an updated snippet that:
 3. **Logs** the result via `console.table`.
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>WASM → Full Structure</title>
-</head>
-<body>
-<script>
-  const sectionNames = {
-    0: 'custom',
-    1: 'type',
-    2: 'import',
-    3: 'function',
-    4: 'table',
-    5: 'memory',
-    6: 'global',
-    7: 'export',
-    8: 'start',
-    9: 'element',
-    10: 'code',
-    11: 'data',
-    12: 'dataCount',
-    13: 'tag'
-  };
 
-  // Read an unsigned LEB128 at bytes[offset]
-  function readVarUint(bytes, offset) {
-    let result = 0, shift = 0, pos = offset;
-    while (true) {
-      const byte = bytes[pos++];
-      result |= (byte & 0x7F) << shift;
-      if ((byte & 0x80) === 0) break;
-      shift += 7;
-    }
-    return { value: result, length: pos - offset };
+const sectionNames = {
+  0: 'custom',
+  1: 'type',
+  2: 'import',
+  3: 'function',
+  4: 'table',
+  5: 'memory',
+  6: 'global',
+  7: 'export',
+  8: 'start',
+  9: 'element',
+  10: 'code',
+  11: 'data',
+  12: 'dataCount',
+  13: 'tag'
+};
+
+// read unsigned LEB128
+function readVarUint(bytes, offset) {
+  let result = 0, shift = 0, pos = offset;
+  while (true) {
+    const byte = bytes[pos++];
+    result |= (byte & 0x7F) << shift;
+    if ((byte & 0x80) === 0) break;
+    shift += 7;
   }
+  return { value: result, length: pos - offset };
+}
 
-  async function parseWasm(url) {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-    const buf = await res.arrayBuffer();
-    const bytes = new Uint8Array(buf);
-    const parts = [];
+async function parseWasm(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+  const buf = await res.arrayBuffer();
+  const bytes = new Uint8Array(buf);
 
-    // ————————————————————————————————
-    // 1) Magic header (4 bytes “\0asm”)
-    const magic = bytes.slice(0, 4);
+  const parts = [];
+  let idx = 0;
+
+  // 1) Magic header
+  {
+    const slice = bytes.slice(0, 4);
     parts.push({
-      id: null,
+      id: idx++,
       name: 'magic',
       length: 4,
-      body: Array.from(magic).map(b => b.toString(2).padStart(8,'0')).join(' ')
+      body: Array.from(slice).map(b => b.toString(2).padStart(8,'0')).join(' ')
     });
-
-    // 2) Version (4-byte LE uint32)
-    const version = bytes.slice(4, 8);
-    parts.push({
-      id: null,
-      name: 'version',
-      length: 4,
-      body: Array.from(version).map(b => b.toString(2).padStart(8,'0')).join(' ')
-    });
-
-    // ————————————————————————————————
-    // 3) All numbered sections
-    let offset = 8;
-    while (offset < bytes.length) {
-      const id = bytes[offset++];
-      const { value: size, length: sizeLen } = readVarUint(bytes, offset);
-      offset += sizeLen;
-      const payload = bytes.slice(offset, offset + size);
-      offset += size;
-
-      parts.push({
-        id,
-        name: sectionNames[id] || `unknown(${id})`,
-        length: size,
-        body: Array.from(payload)
-                   .map(b => b.toString(2).padStart(8,'0'))
-                   .join(' ')
-      });
-    }
-
-    return parts;
   }
 
-  (async () => {
-    try {
-      const structure = await parseWasm('vdom.wasm');
-      console.table(structure, ['id','name','length','body']);
-    } catch (e) {
-      console.error(e);
-    }
-  })();
-</script>
-</body>
-</html>
+  // 2) Version
+  {
+    const slice = bytes.slice(4, 8);
+    parts.push({
+      id: idx++,
+      name: 'version',
+      length: 4,
+      body: Array.from(slice).map(b => b.toString(2).padStart(8,'0')).join(' ')
+    });
+  }
+
+  // 3) Numbered sections
+  let offset = 8;
+  while (offset < bytes.length) {
+    const secId = bytes[offset++];
+    const { value: size, length: sizeLen } = readVarUint(bytes, offset);
+    offset += sizeLen;
+
+    const payload = bytes.slice(offset, offset + size);
+    offset += size;
+
+    parts.push({
+      id: idx++,
+      name: sectionNames[secId] || `unknown(${secId})`,
+      length: size,
+      body: Array.from(payload).map(b => b.toString(2).padStart(8,'0')).join(' ')
+    });
+  }
+
+  return parts;
+}
+
+(async () => {
+  try {
+    const structure = await parseWasm('/wasm/vdom/vdom.wasm');
+    console.table(structure, ['id','name','length','body']);
+  } catch (e) {
+    console.error(e);
+  }
+})();
+
+
 ```
 
 ---
